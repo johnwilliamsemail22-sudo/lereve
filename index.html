@@ -113,7 +113,8 @@ body.cur-arch .cur-ring span{opacity:1}
 .hero-copy h2{font-family:var(--f-disp);font-weight:420;font-size:clamp(24px,3vw,40px);line-height:1.14;letter-spacing:-.01em}
 .hero-copy h2 em{font-style:italic;color:var(--sage)}
 .hero-copy p{margin-top:18px;font-size:14px;line-height:1.7;color:rgba(36,27,16,.72);max-width:400px}
-.hero-cta{margin-top:26px;display:flex;gap:14px;align-items:center}
+.hero-cta{position:relative;z-index:2101;isolation:isolate;margin-top:26px;display:flex;gap:14px;align-items:center;pointer-events:auto;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.hero-cta a{position:relative;z-index:2102;display:inline-flex;align-items:center;justify-content:center;min-height:54px;pointer-events:auto;touch-action:manipulation;-webkit-tap-highlight-color:rgba(88,135,114,.22)}
 .pill{font:600 11px/1 var(--f-body);letter-spacing:.18em;text-transform:uppercase;padding:15px 26px;border:1px solid var(--ink);border-radius:999px;transition:background .4s var(--ease-out),color .4s var(--ease-out)}
 .pill:hover{background:var(--espresso);color:var(--ivory)}
 .pill.sage{border-color:var(--sage);color:var(--sage)}
@@ -778,7 +779,22 @@ body.cur-arch .cur-ring span{opacity:1}
   const menuEl=$('#liveswap');
   const carouselStage=$('#carouselStage');
 
-  // The See Menu link uses native #liveswap navigation so it works consistently on touch devices.
+  // Explicit hero CTA handlers: make the visible touch targets reliable on mobile.
+  const heroMenuLink=$('#ctaMenu');
+  const heroInstagramLink=$('.hero-cta a.sage');
+  heroMenuLink.addEventListener('click',e=>{
+    e.preventDefault();
+    const target=$('#liveswap');
+    if(target){
+      const top=target.getBoundingClientRect().top+window.scrollY-8;
+      window.scrollTo({top:Math.max(0,top),behavior:reduced?'auto':'smooth'});
+      history.replaceState(null,'','#liveswap');
+    }
+  });
+  heroInstagramLink.addEventListener('click',e=>{
+    e.preventDefault();
+    window.location.assign('https://www.instagram.com/lereve.ke/');
+  });
   let carouselBusy=false, touchStartX=0, touchStartY=0;
   function moveDrink(direction){
     if(carouselBusy) return;
