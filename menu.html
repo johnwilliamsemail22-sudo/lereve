@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Le Rêve — Full Menu</title>
+<link rel="icon" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="14" fill="%232A2014"/><path d="M16 50 L16 28 A16 16 0 0 1 48 28 L48 50 Z" fill="%23CAA872"/></svg>'>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ivory:#FAF5E9; --sage:#588772; --espresso:#2A2014; --deep:#16341F; --forest:#1E4432;
+  --pist:#CBDCC4; --gold:#CAA872; --ink:#241B10;
+  --ease-cine:cubic-bezier(.33,.01,.1,.99); --ease-out:cubic-bezier(.22,1,.36,1); --ease-spring:cubic-bezier(.34,1.56,.64,1);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--forest);font-family:'Manrope',sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+::selection{background:var(--sage);color:var(--ivory)}
+.grain{position:fixed;inset:-50%;width:200%;height:200%;pointer-events:none;z-index:2000;opacity:.05;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation:grain 1.1s steps(6) infinite}
+@keyframes grain{0%{transform:translate(0,0)}20%{transform:translate(-2%,3%)}40%{transform:translate(3%,-2%)}60%{transform:translate(-3%,-3%)}80%{transform:translate(2%,2%)}100%{transform:translate(0,0)}}
+
+/* header */
+.hdr{position:fixed;top:0;left:0;right:0;z-index:900;display:flex;align-items:center;justify-content:space-between;padding:18px clamp(18px,4vw,44px);mix-blend-mode:difference;color:var(--ivory)}
+.hdr .wordmark{font-family:'Fraunces',serif;font-style:italic;font-weight:500;font-size:21px}
+.hdr .back{font:700 10px/1 'Manrope';letter-spacing:.24em;text-transform:uppercase;display:flex;gap:10px;align-items:center}
+.hdr .back::after{content:"←";font-size:13px}
+
+/* hero strip */
+.hero{padding:110px clamp(18px,4vw,44px) 26px;color:var(--ivory);position:relative}
+.hero .kick{font:700 10px/1 'Manrope';letter-spacing:.3em;text-transform:uppercase;color:var(--gold)}
+.hero h1{margin-top:14px;font-family:'Anton',sans-serif;font-size:clamp(44px,8vw,110px);line-height:.95;letter-spacing:.01em}
+.hero h1 em{font-style:italic;font-family:'Fraunces',serif;font-weight:500;color:var(--pist)}
+.hero p{margin-top:14px;max-width:430px;font-size:14px;line-height:1.7;color:rgba(250,245,233,.65)}
+.hero .glow{position:absolute;right:-6%;top:-20%;width:46%;height:120%;background:radial-gradient(closest-side,rgba(202,168,114,.16),transparent 70%);pointer-events:none}
+
+/* shelf */
+.shelf{padding:20px 0 60px;position:relative}
+.shelf-row{display:flex;gap:clamp(18px,2.6vw,34px);padding:12px clamp(18px,4vw,44px) 26px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;cursor:grab}
+.shelf-row::-webkit-scrollbar{display:none}
+.shelf-row.drag{cursor:grabbing;scroll-snap-type:none}
+.item{scroll-snap-align:start;flex:0 0 clamp(240px,23vw,300px);background:var(--pist);border-radius:26px;padding:18px 18px 20px;position:relative;transition:transform .5s var(--ease-spring);user-select:none}
+.item:hover{transform:translateY(-10px)}
+.item .img{height:clamp(230px,30vh,300px);display:flex;align-items:flex-end;justify-content:center;animation:bob 4.6s ease-in-out infinite}
+.item .img img{max-height:100%;max-width:100%;object-fit:contain;filter:drop-shadow(0 18px 22px rgba(22,52,31,.35))}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+.item .num{position:absolute;top:14px;left:18px;font-family:'Anton',sans-serif;font-size:15px;color:var(--deep);opacity:.55;letter-spacing:.06em}
+.item h3{margin-top:12px;font-family:'Anton',sans-serif;font-size:clamp(19px,1.8vw,26px);color:var(--deep);letter-spacing:.02em;text-transform:uppercase;line-height:1.05}
+.item .ds{margin-top:6px;font-size:12.5px;line-height:1.55;color:rgba(22,52,31,.72);min-height:38px}
+.item .foot{margin-top:12px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+.item .pr{font-family:'Anton',sans-serif;font-size:21px;color:var(--deep)}
+.item .pr small{font-family:'Manrope';font-weight:700;font-size:10px;letter-spacing:.14em;text-transform:uppercase;display:block;color:rgba(22,52,31,.55)}
+.add{border:1.5px solid var(--deep);color:var(--deep);background:transparent;border-radius:999px;padding:10px 18px;font:800 11px/1 'Manrope';letter-spacing:.14em;text-transform:uppercase;cursor:pointer;transition:all .35s var(--ease-out)}
+.add:hover{background:var(--deep);color:var(--pist)}
+.add:active{transform:scale(.93)}
+/* order-now end card */
+.order-end{scroll-snap-align:center;flex:0 0 clamp(240px,23vw,300px);border-radius:26px;background:var(--gold);display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:16px;padding:26px 24px;position:relative;overflow:hidden}
+.order-end::after{content:"";position:absolute;right:-40px;bottom:-40px;width:160px;height:160px;border-radius:50%;background:rgba(255,255,255,.25)}
+.order-end h3{font-family:'Anton',sans-serif;font-size:clamp(24px,2.4vw,34px);color:var(--deep);line-height:1.05;text-transform:uppercase}
+.order-end p{font-size:12.5px;color:rgba(22,52,31,.75);line-height:1.5}
+.wabtn{display:inline-flex;align-items:center;gap:10px;background:var(--deep);color:var(--ivory);border-radius:999px;padding:14px 22px;font:800 11px/1 'Manrope';letter-spacing:.16em;text-transform:uppercase;cursor:pointer;border:0;transition:transform .35s var(--ease-spring)}
+.wabtn:hover{transform:translateY(-3px)}
+.wabtn svg{width:18px;height:18px;fill:var(--ivory)}
+
+/* cart panel */
+.cart{position:fixed;top:0;left:0;right:0;z-index:1500;transform:translateY(-110%);transition:transform .7s var(--ease-cine);background:rgba(22,52,31,.97);backdrop-filter:blur(10px);color:var(--ivory);box-shadow:0 24px 50px -20px rgba(0,0,0,.6)}
+.cart.open{transform:none}
+.cart-in{padding:16px clamp(18px,4vw,44px);display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.cart .clabel{font:800 10px/1 'Manrope';letter-spacing:.26em;text-transform:uppercase;color:var(--gold);white-space:nowrap}
+.cart-items{display:flex;gap:10px;flex:1;overflow-x:auto;scrollbar-width:none;padding:4px 0}
+.cart-items::-webkit-scrollbar{display:none}
+.cline{display:flex;align-items:center;gap:9px;background:rgba(250,245,233,.08);border:1px solid rgba(250,245,233,.16);border-radius:999px;padding:7px 8px 7px 14px;font:600 12px/1 'Manrope';white-space:nowrap}
+.cline b{font-weight:800}
+.cline .x{cursor:pointer;opacity:.6;border:0;background:none;color:var(--ivory);font-size:14px;line-height:1;padding:2px 5px;border-radius:50%}
+.cline .x:hover{opacity:1;background:rgba(250,245,233,.12)}
+.cart-total{font-family:'Anton',sans-serif;font-size:20px;color:var(--gold);white-space:nowrap}
+.cart .wabtn{background:var(--gold);color:var(--deep)}
+.cart .wabtn svg{fill:var(--deep)}
+.cart .cls{background:none;border:0;color:var(--ivory);opacity:.7;cursor:pointer;font-size:18px;line-height:1;padding:6px}
+.cart .cls:hover{opacity:1}
+
+/* toast */
+.toast{position:fixed;left:50%;bottom:26px;transform:translate(-50%,14px);z-index:1600;background:var(--espresso);color:var(--ivory);font:700 10px/1 'Manrope';letter-spacing:.16em;text-transform:uppercase;padding:13px 20px;border-radius:999px;opacity:0;transition:all .4s var(--ease-out);pointer-events:none}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+
+/* footer note */
+.foot{padding:26px clamp(18px,4vw,44px) 40px;color:rgba(250,245,233,.55);font:600 10px/1.8 'Manrope';letter-spacing:.18em;text-transform:uppercase;border-top:1px solid rgba(250,245,233,.12);display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+.foot a{color:var(--gold)}
+
+@media(max-width:640px){
+  .hero{padding-top:92px}
+  .item{flex-basis:min(74vw,280px)}
+  .order-end{flex-basis:min(74vw,280px)}
+  .cart-in{flex-direction:column;align-items:stretch;gap:9px;padding:13px 16px}
+  .cart .clabel{display:none}
+  .cart-items{flex:1;width:100%;gap:8px}
+  .cart-row2{display:flex;align-items:center;justify-content:space-between;gap:10px}
+  .cart-total{font-size:17px}
+  .cart .wabtn{padding:12px 16px;font-size:10px}
+  .cart .cls{position:absolute;top:10px;right:10px}
+  .cline{font-size:11.5px;padding:6px 7px 6px 12px}
+}
+</style>
+</head>
+<body>
+<div class="grain"></div>
+<script>
+window.addEventListener('error',e=>{try{fetch('/api/uxlog',{method:'POST',body:'MENU-ERR '+e.message})}catch(_){}});
+</script>
+
+<header class="hdr">
+  <a class="wordmark" href="/">Le Rêve</a>
+  <a class="back" href="/">back to the dream</a>
+</header>
+
+<div class="cart" id="cart">
+  <div class="cart-in">
+    <span class="clabel">your order</span>
+    <div class="cart-items" id="cartItems"></div>
+    <div class="cart-row2">
+      <span class="cart-total" id="cartTotal">$0.00</span>
+      <button class="wabtn" id="orderNow"><svg viewBox="0 0 24 24"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.9-4.45 9.9-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm5.8 14.03c-.25.69-1.45 1.32-2 1.36-.51.05-1.13.23-3.8-.79-3.21-1.27-5.24-4.56-5.4-4.77-.16-.21-1.29-1.72-1.29-3.28 0-1.56.82-2.33 1.11-2.65.29-.32.63-.4.84-.4h.6c.19 0 .45-.07.7.53.25.61.87 2.11.94 2.26.07.15.12.33.02.54-.1.21-.15.34-.29.52-.15.18-.31.4-.44.54-.15.15-.3.31-.13.61.17.3.75 1.24 1.61 2.01 1.11.99 2.04 1.3 2.34 1.45.3.15.47.13.65-.08.17-.2.75-.87.95-1.17.2-.3.4-.25.67-.15.27.1 1.72.81 2.01.96.29.15.49.22.56.35.07.13.07.75-.18 1.46z"/></svg>order on whatsapp</button>
+      <button class="cls" id="cartClose" aria-label="close">✕</button>
+    </div>
+  </div>
+</div>
+
+<section class="hero">
+  <div class="glow"></div>
+  <div class="kick">the full menu · order to go</div>
+  <h1>every <em>dream,</em><br>on one shelf.</h1>
+  <p>Tap what you want, add as much as you like, then order the whole thing on WhatsApp. We will have it ready by the time you arrive.</p>
+</section>
+
+<section class="shelf">
+  <div class="shelf-row" id="shelfRow"></div>
+</section>
+
+<div class="toast" id="toast"></div>
+
+<footer class="foot">
+  <span>Le Rêve · Imadi Shopping Complex · Malindi</span>
+  <span>daily from 11am · <a href="https://wa.me/254794053291">wa.me/254794053291</a></span>
+  <span><a href="https://www.instagram.com/lereve.ke/">@lereve.ke</a></span>
+</footer>
+
+<script>
+const MENU = [
+  {id:'matcha', name:'Caramel Matcha', ds:'layered green & gold, iced', price:450,  img:'assets/matcha_cut.png'},
+  {id:'straw', name:'Iced Strawberry Latte', ds:'the famous one — berry first', price:450,  img:'assets/straw_cut.png'},
+  {id:'latte', name:'Iced Latte', ds:'creamy coffee over ice, milk swirls', price:350,  img:'assets/latte_cut.png'},
+  {id:'brew', name:'Cold Brew To-Go', ds:'18 hours of patience, over ice', price:400,  img:'assets/brew_cut.png'},
+  {id:'caramel', name:'Caramel Frappe', ds:'whipped cloud, golden drizzle', price:480,  img:'assets/caramel_cut.png'},
+  {id:'espresso', name:'Iced Espresso', ds:'short, dark, honest', price:300,  img:'assets/espresso_cut.png'},
+  {id:'oreo', name:'Oreo Milkshake', ds:'cookies & cream, crumb rim', price:450,  img:'assets/oreo_cut.png'},
+  {id:'kitkat', name:'KitKat Shake', ds:'chocolate wafer crown', price:450,  img:'assets/kitkat_cut.png'},
+  {id:'mojito', name:'Blueberry Mojito', ds:'purple, iced, refreshing', price:480,  img:'assets/mojito_cut.png'},
+  {id:'donut', name:'Biscoff Donut', ds:'the famous one — goes fast', price:250,  img:'assets/donut_cut.png'},
+  {id:'cinnamon', name:'Cinnamon Roll', ds:'glazed, warm from the case', price:300,  img:'assets/cinnamon_cut.png'},
+];
+const WA = '254794053291';
+const $ = s => document.querySelector(s);
+const money = v => 'KES '+Math.round(v).toLocaleString('en-KE');
+
+const row = $('#shelfRow');
+MENU.forEach((m,i)=>{
+  const el = document.createElement('div'); el.className='item';
+  el.innerHTML = `
+    <span class="num">${String(i+1).padStart(2,'0')}</span>
+    <div class="img"><img src="${m.img}" alt="${m.name}" draggable="false"></div>
+    <h3>${m.name}</h3>
+    <p class="ds">${m.ds}</p>
+    <div class="foot"><span class="pr">${money(m.price)}<small>per item</small></span><button class="add" data-id="${m.id}">add +</button></div>`;
+  row.appendChild(el);
+});
+const endCard = document.createElement('div'); endCard.className='order-end';
+endCard.innerHTML = `<h3>ready when<br>you are.</h3><p>your order goes straight to our WhatsApp — we start making it right away.</p><button class="wabtn" id="orderNow2"><svg viewBox="0 0 24 24"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.9-4.45 9.9-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm5.8 14.03c-.25.69-1.45 1.32-2 1.36-.51.05-1.13.23-3.8-.79-3.21-1.27-5.24-4.56-5.4-4.77-.16-.21-1.29-1.72-1.29-3.28 0-1.56.82-2.33 1.11-2.65.29-.32.63-.4.84-.4h.6c.19 0 .45-.07.7.53.25.61.87 2.11.94 2.26.07.15.12.33.02.54-.1.21-.15.34-.29.52-.15.18-.31.4-.44.54-.15.15-.3.31-.13.61.17.3.75 1.24 1.61 2.01 1.11.99 2.04 1.3 2.34 1.45.3.15.47.13.65-.08.17-.2.75-.87.95-1.17.2-.3.4-.25.67-.15.27.1 1.72.81 2.01.96.29.15.49.22.56.35.07.13.07.75-.18 1.46z"/></svg>order now</button>`;
+row.appendChild(endCard);
+
+/* cart */
+const cart = {};
+const toast = $('#toast');
+function showToast(t){ toast.textContent=t; toast.classList.add('on'); clearTimeout(showToast.t); showToast.t=setTimeout(()=>toast.classList.remove('on'),1600); }
+function render(){
+  const box=$('#cartItems'); box.innerHTML='';
+  let total=0, count=0;
+  Object.entries(cart).forEach(([id,qty])=>{
+    const m=MENU.find(x=>x.id===id); if(!m) return;
+    total += m.price*qty; count += qty;
+    const c=document.createElement('div'); c.className='cline';
+    c.innerHTML=`<b>${qty}×</b> ${m.name} <span style="opacity:.6">${money(m.price*qty)}</span><button class="x" data-id="${id}" aria-label="remove">✕</button>`;
+    box.appendChild(c);
+  });
+  $('#cartTotal').textContent = money(total);
+  $('#cart').classList.toggle('open', count>0);
+  if(count===0) $('#cart').classList.remove('open');
+}
+document.addEventListener('click',e=>{
+  const add=e.target.closest('.add');
+  if(add){ const id=add.dataset.id; cart[id]=(cart[id]||0)+1; render(); showToast('added · '+MENU.find(m=>m.id===id).name); }
+  const x=e.target.closest('.cline .x');
+  if(x){ delete cart[x.dataset.id]; render(); }
+});
+function order(){
+  const ids=Object.entries(cart).filter(([,q])=>q>0);
+  if(!ids.length){ showToast('add something first ✨'); return; }
+  let total=0, lines=[];
+  ids.forEach(([id,q])=>{ const m=MENU.find(x=>x.id===id); total+=m.price*q; lines.push(`• ${q}× ${m.name} — ${money(m.price*q)}`); });
+  const msg = `Hello Le Rêve Café! I'd like to order:\n\n${lines.join('\n')}\n\nTotal: ${money(total)}\n\nName: \nPickup or delivery: `;
+  window.open(`https://wa.me/${WA}?text=${encodeURIComponent(msg)}`,'_blank');
+}
+$('#orderNow').addEventListener('click',order);
+$('#orderNow2').addEventListener('click',order);
+$('#cartClose').addEventListener('click',()=>$('#cart').classList.remove('open'));
+
+/* drag-to-scroll shelf */
+let down=false,startX=0,scroll0=0,moved=false;
+row.addEventListener('pointerdown',e=>{ down=true; moved=false; startX=e.clientX; scroll0=row.scrollLeft; row.classList.add('drag'); });
+addEventListener('pointermove',e=>{ if(!down) return; const dx=e.clientX-startX; if(Math.abs(dx)>4) moved=true; row.scrollLeft=scroll0-dx; });
+addEventListener('pointerup',()=>{ down=false; row.classList.remove('drag'); });
+row.addEventListener('click',e=>{ if(moved){ e.preventDefault(); e.stopPropagation(); moved=false; } },true);
+</script>
+</body>
+</html>
