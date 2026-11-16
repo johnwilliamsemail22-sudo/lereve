@@ -33,11 +33,11 @@ button{font-family:inherit}
 @keyframes bokeh{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-24px) scale(1.06)}}
 
 /* splash layers */
-.splashPool{position:absolute;left:50%;bottom:-4%;transform:translateX(-50%);pointer-events:none;
-  height:min(52vh,560px);aspect-ratio:3/2;filter:drop-shadow(0 10px 30px rgba(0,0,0,.18))}
+.splashPool{position:absolute;left:50%;bottom:-6%;transform:translateX(-50%);pointer-events:none;
+  height:min(58vh,640px);aspect-ratio:3/2;filter:drop-shadow(0 10px 30px rgba(0,0,0,.18))}
 .splashPool img{width:100%;height:100%;object-fit:cover;object-position:bottom;display:block;animation:poolmove 8s ease-in-out infinite}
 @keyframes poolmove{0%,100%{transform:translateX(-1.5%)}50%{transform:translateX(1.5%)}}
-.crown{position:absolute;left:50%;top:50%;transform:translate(-50%,-58%);width:clamp(300px,36vw,520px);pointer-events:none;z-index:6}
+.crown{position:absolute;left:50%;top:50%;transform:translate(-50%,-56%);width:clamp(360px,46vw,660px);pointer-events:none;z-index:6}
 .crown img{width:100%;display:block;animation:crownwob 5s ease-in-out infinite;transition:opacity .6s,transform .9s var(--ease-out)}
 @keyframes crownwob{0%,100%{transform:scale(1) rotate(0)}50%{transform:scale(1.025) rotate(-.6deg)}}
 /* tint via hue-rotate per flavor (applied to .tint elements) */
@@ -45,9 +45,9 @@ button{font-family:inherit}
 
 /* ================= drink ================= */
 .drinkwrap{position:absolute;left:50%;top:50%;transform:translate(-50%,-54%);z-index:7;pointer-events:none}
-.drinkwrap img{height:clamp(340px,66vh,700px);filter:drop-shadow(0 34px 44px rgba(0,0,0,.28))}
+.drinkwrap img{height:clamp(380px,74vh,760px);filter:drop-shadow(0 50px 60px rgba(0,0,0,.35)) drop-shadow(0 18px 24px rgba(0,0,0,.25))}
 .drinkwrap .cup{animation:bob 6s ease-in-out infinite}
-@keyframes bob{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-12px) rotate(.5deg)}}
+@keyframes bob{0%,100%{transform:translateY(0) rotate(-.6deg)}50%{transform:translateY(-16px) rotate(.7deg)}}
 .drinkwrap.pop .cup{animation:pop .8s var(--ease-out), bob 6s ease-in-out .8s infinite}
 @keyframes pop{0%{transform:scale(.55) translateY(60px);opacity:0}55%{transform:scale(1.06)}100%{transform:scale(1);opacity:1}}
 
@@ -179,26 +179,66 @@ button{font-family:inherit}
 .count{position:absolute;top:92px;right:clamp(18px,3.4vw,48px);z-index:30;font:700 11px/1 'Manrope';letter-spacing:.2em;color:#fff;opacity:.8}
 
 @media(max-width:760px){
+  /* nav: keep glass pill but compact; logo + order pill only */
+  .nav{padding:14px 16px}
+  .logo{font-size:18px}
   .navmid{display:none}
-  .bigword{font-size:clamp(64px,19vw,120px)}
-  .drinkwrap img{height:clamp(230px,42vh,380px)}
-  .crown{width:clamp(220px,60vw,320px)}
-  .prodcard{bottom:96px;left:12px;right:12px;max-width:none;padding:12px}
-  .pinfo p{max-width:none}
-  .stats{flex-direction:row}
-  .sidechips{top:26%;gap:6px}
-  .ring{top:62%;width:170px;height:170px}
-  .arrows{bottom:26px;right:14px}
-  .splashPool{min-width:900px}
+  .whitepill{padding:10px 14px;font-size:11px}
+  .icobtn{width:30px;height:30px}
+
+  /* scene stays cinematic: giant word behind, big drink, big fruit */
+  .bigword{font-size:clamp(80px,30vw,170px);top:38%}
+  .drinkwrap{top:50%}
+  .drinkwrap img{height:clamp(230px,40vh,380px)}
+  .crown{width:clamp(230px,70vw,340px)}
+  .splashPool{height:min(40vh,420px);bottom:-5%}
+  .fruits img.dof{filter:blur(5px) drop-shadow(0 12px 14px rgba(0,0,0,.15))}
+
+  /* chips above the drink */
+  .sidechips{top:15%;flex-wrap:wrap;justify-content:center;max-width:92vw;gap:6px}
+  .schip{padding:8px 13px;font-size:9.5px}
+
+  /* ring hugs the glass base, smaller */
+  .ring{top:63%;width:140px;height:140px}
+  .ring text{font-size:9px;letter-spacing:.26em}
+  .ring .pct{font-size:16px}
+
+  /* product card: full-width glass slab above the arrows */
+  .prodcard{left:12px;right:12px;bottom:96px;max-width:none;padding:12px;gap:12px;border-radius:20px}
+  .stats{flex-direction:row;gap:7px}
+  .stat{padding:7px 10px;min-width:54px}
+  .stat b{font-size:13px}
+  .pthumb{width:60px;height:74px}
+  .pinfo h3{font-size:15px}
+  .pinfo p{font-size:11px;max-width:none}
+  .addbtn{padding:10px 16px;font-size:10.5px}
+  .pinbtn{width:32px;height:32px}
+
+  /* arrows bottom-right, dots bottom-center */
+  .arrows{bottom:24px;right:14px;gap:8px}
+  .arrow{width:42px;height:42px}
+  .dots{bottom:30px;left:50%;right:auto;transform:translateX(-50%)}
+
+  /* about/contact stacks */
+  .abt{padding:60px 18px}
+  .abt h2{font-size:clamp(34px,9vw,52px)}
+  .abt-grid{grid-template-columns:1fr;gap:24px}
+  .collage{grid-template-columns:1fr 1fr;gap:10px}
+  .collage .c1{height:200px}.collage .c2{height:140px}.collage .c3{height:180px}
+  .reels{padding:10px 18px 60px}
+  .reels h2{font-size:clamp(30px,8vw,44px)}
+  .reel{max-width:none;flex-basis:46%}
+  .contact{padding:60px 18px 50px}
+  .contact h2{font-size:clamp(32px,9vw,50px)}
+  .c-row{flex-direction:column;align-items:flex-start;gap:4px;padding:14px 0}
+  .c-row .v{font-size:14px;text-align:left}
+  .foot2{padding:20px 18px 30px;flex-direction:column;gap:6px}
+
   .count{display:none}
-  .cart-in{flex-direction:column;align-items:stretch;gap:9px;padding:13px 16px}
-  .cart .clabel{display:none}
-  .cart-items{flex:1;width:100%;gap:8px}
-  .cart-row2{display:flex;align-items:center;justify-content:space-between;gap:10px}
-  .cart-total{font-size:17px}
-  .cart .wabtn{padding:12px 16px;font-size:10px}
-  .cart .cls{position:absolute;top:10px;right:10px}
   .cline{font-size:11.5px;padding:6px 7px 6px 12px}
+}
+@media(max-width:420px){
+  .reel{flex-basis:100%;max-width:320px;margin:0 auto}
 }
 </style>
 </head>
@@ -342,7 +382,7 @@ function scatterFruit(kind){
   spots.forEach((p,i)=>{
     const im = document.createElement('img'); im.src = src;
     im.style.left = p.x+'%'; im.style.top = p.y+'%';
-    im.style.height = (70 + p.s*120)+'px';
+    im.style.height = (9 + p.s*11)+'vmin';
     im.style.setProperty('--r0', (i%2? -18:14)+'deg');
     im.style.setProperty('--r1', (i%2? 16:-16)+'deg');
     im.style.animationDelay = (i*0.22)+'s';
@@ -406,7 +446,6 @@ function go(i){
 
   $('#count').textContent = String(idx+1).padStart(2,'0')+' / '+String(MENU.length).padStart(2,'0');
   document.querySelectorAll('.dot').forEach((d,j)=>d.classList.toggle('on', j===idx));
-  $('#qty').textContent = cart[m.id] ? (cart[m.id]+' in cart') : '';
   setTimeout(()=>switching=false, 480);
 }
 
@@ -438,7 +477,6 @@ function render(){
   });
   $('#cartTotal').textContent = money(total);
   $('#cart').classList.toggle('open', count>0);
-  $('#qty').textContent = cart[MENU[idx].id] ? (cart[MENU[idx].id]+' in cart') : '';
 }
 $('#addBtn').addEventListener('click',()=>{ const m=MENU[idx]; cart[m.id]=(cart[m.id]||0)+1; render(); showToast('added · '+m.name); });
 document.addEventListener('click',e=>{ const x=e.target.closest('.cline .x'); if(x){ delete cart[x.dataset.id]; render(); } });
