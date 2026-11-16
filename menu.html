@@ -33,9 +33,9 @@ button{font-family:inherit}
 @keyframes bokeh{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-24px) scale(1.06)}}
 
 /* splash layers */
-.splashPool{position:absolute;left:50%;bottom:-2%;transform:translateX(-50%);width:130%;min-width:1500px;pointer-events:none;
-  filter:drop-shadow(0 10px 30px rgba(0,0,0,.18));transition:filter 1s}
-.splashPool img{width:100%;display:block;animation:poolmove 8s ease-in-out infinite}
+.splashPool{position:absolute;left:50%;bottom:-4%;transform:translateX(-50%);pointer-events:none;
+  height:min(52vh,560px);aspect-ratio:3/2;filter:drop-shadow(0 10px 30px rgba(0,0,0,.18))}
+.splashPool img{width:100%;height:100%;object-fit:cover;object-position:bottom;display:block;animation:poolmove 8s ease-in-out infinite}
 @keyframes poolmove{0%,100%{transform:translateX(-1.5%)}50%{transform:translateX(1.5%)}}
 .crown{position:absolute;left:50%;top:50%;transform:translate(-50%,-58%);width:clamp(300px,36vw,520px);pointer-events:none;z-index:6}
 .crown img{width:100%;display:block;animation:crownwob 5s ease-in-out infinite;transition:opacity .6s,transform .9s var(--ease-out)}
@@ -45,7 +45,7 @@ button{font-family:inherit}
 
 /* ================= drink ================= */
 .drinkwrap{position:absolute;left:50%;top:50%;transform:translate(-50%,-54%);z-index:7;pointer-events:none}
-.drinkwrap img{height:clamp(320px,58vh,620px);filter:drop-shadow(0 34px 44px rgba(0,0,0,.28))}
+.drinkwrap img{height:clamp(340px,66vh,700px);filter:drop-shadow(0 34px 44px rgba(0,0,0,.28))}
 .drinkwrap .cup{animation:bob 6s ease-in-out infinite}
 @keyframes bob{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-12px) rotate(.5deg)}}
 .drinkwrap.pop .cup{animation:pop .8s var(--ease-out), bob 6s ease-in-out .8s infinite}
@@ -67,13 +67,13 @@ button{font-family:inherit}
 /* ================= floating fruit ================= */
 .fruits{position:absolute;inset:0;z-index:8;pointer-events:none}
 .fruits img{position:absolute;opacity:0;filter:drop-shadow(0 16px 18px rgba(0,0,0,.22))}
-.fruits img.on{animation:fruity 7s ease-in-out forwards}
+.fruits img.on{animation:fruity 9s ease-in-out forwards}
 @keyframes fruity{
-  0%{opacity:0;transform:translateY(30px) rotate(var(--r0)) scale(.9)}
+  0%{opacity:0;transform:translate(4vw,6vh) rotate(var(--r0)) scale(.9)}
   12%{opacity:1}
   88%{opacity:1}
-  100%{opacity:0;transform:translateY(-34px) rotate(var(--r1)) scale(1)}}
-.fruits img.dof{filter:blur(5px) drop-shadow(0 16px 18px rgba(0,0,0,.15))}
+  100%{opacity:0;transform:translate(-4vw,-7vh) rotate(var(--r1)) scale(1)}}
+ .fruits img.dof{filter:blur(7px) drop-shadow(0 16px 18px rgba(0,0,0,.15))}
 
 /* ================= nav ================= */
 .nav{position:absolute;top:0;left:0;right:0;z-index:60;display:flex;align-items:center;justify-content:space-between;
@@ -95,9 +95,9 @@ button{font-family:inherit}
 .whitepill:hover{transform:translateY(-2px)}
 
 /* ================= flavor chips (top-center, behind drink) ================= */
-.sidechips{position:absolute;left:50%;top:31%;transform:translateX(-50%);z-index:3;display:flex;gap:9px}
-.schip{font:600 11px/1 'Manrope';letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.85);
-  background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.25);backdrop-filter:blur(8px);
+.sidechips{position:absolute;left:50%;top:27%;transform:translateX(-50%);z-index:9;display:flex;gap:9px}
+.schip{font:700 11px/1 'Manrope';letter-spacing:.12em;text-transform:uppercase;color:#fff;
+  background:rgba(0,0,0,.16);border:1px solid rgba(255,255,255,.25);backdrop-filter:blur(8px);
   border-radius:999px;padding:9px 16px;opacity:0;transform:translateY(10px)}
 .schip.on{animation:chipin .6s var(--ease-out) forwards}
 @keyframes chipin{to{opacity:1;transform:none}}
@@ -173,6 +173,9 @@ button{font-family:inherit}
 .toast.on{opacity:1;transform:translate(-50%,0)}
 
 /* counter */
+.dots{position:absolute;left:50%;bottom:14px;transform:translateX(-50%);z-index:50;display:flex;gap:8px}
+.dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.35);border:0;cursor:pointer;padding:0;transition:all .35s var(--ease-out)}
+.dot.on{background:#fff;transform:scale(1.4)}
 .count{position:absolute;top:92px;right:clamp(18px,3.4vw,48px);z-index:30;font:700 11px/1 'Manrope';letter-spacing:.2em;color:#fff;opacity:.8}
 
 @media(max-width:760px){
@@ -229,8 +232,8 @@ window.addEventListener('error',e=>{try{fetch('/api/uxlog',{method:'POST',body:'
   <nav class="nav">
     <a class="logo" href="/"><span class="dia">✦</span>Le Rêve</a>
     <div class="navmid">
-      <a href="/" class="active">Home</a>
-      <a href="/menu.html">Our Shakes ▾</a>
+      <a href="/" data-nav="home">Home</a>
+      <a href="/menu.html" data-nav="menu">Our Shakes ▾</a>
       <a href="/#reels">About Us</a>
       <a href="/#visit">Contact</a>
     </div>
@@ -241,6 +244,7 @@ window.addEventListener('error',e=>{try{fetch('/api/uxlog',{method:'POST',body:'
     </div>
   </nav>
 
+  <div class="dots" id="dots"></div>
   <div class="count" id="count">01 / 11</div>
 
   <!-- right flavor chips -->
@@ -315,6 +319,7 @@ const FRUIT = {straw:'assets/gen/straw.png', berry:'assets/gen/berry.png', kiwi:
 const WA = '254794053291';
 const $ = s => document.querySelector(s);
 const money = v => 'KES '+Math.round(v).toLocaleString('en-KE');
+MENU.forEach((m,i)=>{ const d=document.createElement('button'); d.className='dot'; d.setAttribute('aria-label',m.name); d.addEventListener('click',()=>go(i)); $('#dots').appendChild(d); });
 $('#count').textContent = '01 / '+String(MENU.length).padStart(2,'0');
 
 let idx = 0, switching = false;
@@ -329,18 +334,18 @@ function scatterFruit(kind){
   const box = $('#fruits'); box.innerHTML='';
   const src = FRUIT[kind];
   const spots = [
-    {x:10,y:20,s:.55,dof:false},{x:20,y:62,s:.7,dof:false},{x:31,y:34,s:.4,dof:true},
-    {x:70,y:24,s:.5,dof:true},{x:82,y:56,s:.75,dof:false},{x:88,y:30,s:.45,dof:true},
-    {x:62,y:70,s:.6,dof:false},{x:14,y:44,s:.34,dof:true},
+    {x:7,y:16,s:1.25,dof:false},{x:16,y:66,s:1.5,dof:false},{x:28,y:26,s:.9,dof:true},
+    {x:69,y:18,s:1.1,dof:true},{x:81,y:52,s:1.6,dof:false},{x:90,y:24,s:1.0,dof:true},
+    {x:60,y:74,s:1.3,dof:false},{x:10,y:40,s:.75,dof:true},{x:88,y:74,s:1.1,dof:false},
+    {x:36,y:12,s:.8,dof:true},
   ];
   spots.forEach((p,i)=>{
     const im = document.createElement('img'); im.src = src;
     im.style.left = p.x+'%'; im.style.top = p.y+'%';
-    im.style.height = (40 + p.s*70)+'px';
-    if(p.dof) im.classList.add('dof');
-    im.style.setProperty('--r0', (i%2? -16:12)+'deg');
-    im.style.setProperty('--r1', (i%2? 14:-14)+'deg');
-    im.style.animationDelay = (i*0.28)+'s';
+    im.style.height = (70 + p.s*120)+'px';
+    im.style.setProperty('--r0', (i%2? -18:14)+'deg');
+    im.style.setProperty('--r1', (i%2? 16:-16)+'deg');
+    im.style.animationDelay = (i*0.22)+'s';
     im.className = 'on' + (p.dof?' dof':'');
     box.appendChild(im);
   });
@@ -400,13 +405,16 @@ function go(i){
   dw.classList.remove('pop'); void dw.offsetWidth; dw.classList.add('pop');
 
   $('#count').textContent = String(idx+1).padStart(2,'0')+' / '+String(MENU.length).padStart(2,'0');
+  document.querySelectorAll('.dot').forEach((d,j)=>d.classList.toggle('on', j===idx));
   $('#qty').textContent = cart[m.id] ? (cart[m.id]+' in cart') : '';
-  setTimeout(()=>switching=false, 700);
+  setTimeout(()=>switching=false, 480);
 }
 
 $('#next').addEventListener('click',()=>go(idx+1));
 $('#prev').addEventListener('click',()=>go(idx-1));
 addEventListener('keydown',e=>{ if(e.key==='ArrowRight') go(idx+1); if(e.key==='ArrowLeft') go(idx-1); });
+
+if(!EMBED) addEventListener('wheel',e=>{ if(Math.abs(e.deltaY)<18) return; if(e.deltaY>0) go(idx+1); else go(idx-1); },{passive:true});
 
 /* swipe */
 let tx0=null;
@@ -444,6 +452,13 @@ function order(){
 $('#orderNow').addEventListener('click',order);
 $('#orderPill').addEventListener('click',order);
 $('#cartClose').addEventListener('click',()=>$('#cart').classList.remove('open'));
+
+const EMBED = new URLSearchParams(location.search).has('embed');
+if(EMBED){ document.querySelector('.nav').style.display='none'; document.querySelector('.count').style.display='none'; }
+document.querySelectorAll('.navmid a').forEach(a=>{
+  const onMenu = /menu(\.html)?$/.test(location.pathname);
+  a.classList.toggle('active', a.dataset.nav==='menu' ? onMenu : a.dataset.nav==='home' ? !onMenu : false);
+});
 
 /* init */
 const first = MENU[0];
