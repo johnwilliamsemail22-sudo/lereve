@@ -103,7 +103,7 @@ button{font-family:inherit}
 @keyframes chipin{to{opacity:1;transform:none}}
 
 /* ================= product card (bottom-left) ================= */
-.prodcard{position:absolute;left:clamp(18px,3.4vw,48px);bottom:clamp(22px,6vh,54px);z-index:40;
+.prodcard{position:absolute;left:clamp(18px,3.4vw,48px);bottom:clamp(22px,6vh,54px);z-index:60;
   display:flex;align-items:center;gap:14px;padding:14px;border-radius:22px;
   background:var(--card);backdrop-filter:blur(18px);border:1px solid rgba(255,255,255,.45);
   box-shadow:0 24px 50px -18px rgba(0,0,0,.28);max-width:min(480px,calc(100vw - 36px));
@@ -179,43 +179,46 @@ button{font-family:inherit}
 .count{position:absolute;top:92px;right:clamp(18px,3.4vw,48px);z-index:30;font:700 11px/1 'Manrope';letter-spacing:.2em;color:#fff;opacity:.8}
 
 @media(max-width:760px){
-  /* nav: keep glass pill but compact; logo + order pill only */
-  .nav{padding:14px 16px}
-  .logo{font-size:18px}
-  .navmid{display:none}
-  .whitepill{padding:10px 14px;font-size:11px}
-  .icobtn{width:30px;height:30px}
+  /* nav: row 1 = logo + icons, row 2 = centered pill links (own space) */
+  .nav{padding:10px 12px 8px;flex-wrap:wrap;gap:8px}
+  .logo{font-size:16px;white-space:nowrap;flex-shrink:0}
+  .navmid{position:static;transform:none;order:3;flex:0 0 100%;margin:0 auto;padding:4px;gap:2px;justify-content:center;width:max-content}
+  .navmid a{padding:8px 12px;font-size:10px;white-space:nowrap}
+  .whitepill{padding:9px 13px;font-size:10px;flex-shrink:0}
+  .icobtn{width:30px;height:30px;flex-shrink:0}
+  .navright{gap:6px}
+  #pinTop{display:none}
 
   /* scene stays cinematic: giant word behind, big drink, big fruit */
-  .bigword{font-size:clamp(80px,30vw,170px);top:38%}
+  .bigword{font-size:clamp(72px,26vw,150px);top:31%}
   .drinkwrap{top:50%}
-  .drinkwrap img{height:min(56vh,560px)}
+  .drinkwrap img{height:min(42vh,440px)}
   .crown{width:clamp(280px,88vw,420px)}
-  .splashPool{height:min(40vh,420px);bottom:-5%}
+  .splashPool{height:min(26vh,280px);bottom:-4%}
   .fruits img.dof{filter:blur(5px) drop-shadow(0 12px 14px rgba(0,0,0,.15))}
 
   /* chips above the drink */
-  .sidechips{top:15%;flex-wrap:wrap;justify-content:center;max-width:92vw;gap:6px}
+  .sidechips{top:13%;flex-wrap:wrap;justify-content:center;max-width:92vw;gap:5px}
   .schip{padding:8px 13px;font-size:9.5px}
 
   /* ring hugs the glass base, smaller */
-  .ring{top:63%;width:140px;height:140px}
+  .ring{top:56%;width:110px;height:110px}
   .ring text{font-size:9px;letter-spacing:.26em}
   .ring .pct{font-size:16px}
 
   /* product card: full-width glass slab above the arrows */
-  .prodcard{left:12px;right:12px;bottom:96px;max-width:none;padding:12px;gap:12px;border-radius:20px}
+  .prodcard{left:10px;right:10px;bottom:76px;max-width:none;padding:10px;gap:10px;border-radius:18px;z-index:60}
   .stats{flex-direction:row;gap:7px}
   .stat{padding:7px 10px;min-width:54px}
   .stat b{font-size:13px}
-  .pthumb{width:60px;height:74px}
+  .pthumb{width:48px;height:60px}
   .pinfo h3{font-size:15px}
   .pinfo p{font-size:11px;max-width:none}
   .addbtn{padding:10px 16px;font-size:10.5px}
   .pinbtn{width:32px;height:32px}
 
   /* arrows bottom-right, dots bottom-center */
-  .arrows{bottom:24px;right:14px;gap:8px}
+  .arrows{bottom:18px;right:12px;gap:8px}
   .arrow{width:42px;height:42px}
   .dots{bottom:30px;left:50%;right:auto;transform:translateX(-50%)}
 
@@ -242,6 +245,23 @@ button{font-family:inherit}
 }
 
 /* ---- checkout overlay ---- */
+
+/* search overlay */
+.srch{position:fixed;inset:0;z-index:1400;display:flex;align-items:flex-start;justify-content:center;padding:80px 18px 18px;opacity:0;pointer-events:none;transition:opacity .35s var(--ease-out)}
+.srch.open{opacity:1;pointer-events:auto}
+.srch .sr-bg{position:absolute;inset:0;background:rgba(20,12,16,.5);backdrop-filter:blur(8px)}
+.srch-box{position:relative;width:min(460px,100%);background:#FAF5E9;border-radius:18px;padding:14px;box-shadow:0 30px 60px -20px rgba(0,0,0,.5)}
+.srch-box input{width:100%;border:1.5px solid rgba(36,27,16,.15);border-radius:12px;padding:13px 14px;font:600 15px/1 'Manrope';color:#241B10;outline:none;background:#fff}
+.srch-box input:focus{border-color:#8a6543}
+.srch-res{margin-top:10px;max-height:46vh;overflow:auto}
+.srch-item{display:flex;align-items:center;gap:12px;padding:9px 10px;border-radius:12px;cursor:pointer}
+.srch-item:hover{background:rgba(36,27,16,.07)}
+.srch-item img{width:40px;height:52px;object-fit:contain}
+.srch-item b{font:800 13px/1.2 'Manrope';color:#241B10;display:block}
+.srch-item span{font:600 11px/1.3 'Manrope';color:rgba(36,27,16,.6)}
+.srch-item .pr{margin-left:auto;font:800 12px/1 'Manrope';color:#8a6543;white-space:nowrap}
+.srch-empty{padding:14px 8px;font:600 12.5px/1.5 'Manrope';color:rgba(36,27,16,.55)}
+
 .checkout{position:fixed;inset:0;z-index:2000;display:flex;align-items:center;justify-content:center;padding:18px;
   opacity:0;pointer-events:none;transition:opacity .45s var(--ease-out)}
 .checkout.open{opacity:1;pointer-events:auto}
@@ -319,11 +339,18 @@ window.addEventListener('error',e=>{try{fetch('/api/uxlog',{method:'POST',body:'
       <a href="#contact">Contact</a>
     </div>
     <div class="navright">
-      <button class="icobtn" aria-label="search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg></button>
-      <a class="icobtn" aria-label="find us" href="https://www.google.com/maps/search/?api=1&query=Le+R%C3%AAve+Imadi+Shopping+Complex+Malindi"><svg viewBox="0 0 24 24"><path d="M12 21s-7-5.5-7-11a7 7 0 1 1 14 0c0 5.5-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg></a>
+      <button class="icobtn" id="searchBtn" aria-label="search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg></button>
+      <a class="icobtn" id="pinTop" aria-label="find us" href="https://www.google.com/maps/search/?api=1&query=Le+R%C3%AAve+Imadi+Shopping+Complex+Malindi"><svg viewBox="0 0 24 24"><path d="M12 21s-7-5.5-7-11a7 7 0 1 1 14 0c0 5.5-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg></a>
       <button class="whitepill" id="orderPill">Order Now</button>
     </div>
   </nav>
+  <div class="srch" id="srch">
+    <div class="sr-bg" id="srBg"></div>
+    <div class="srch-box">
+      <input id="srInput" type="text" placeholder="Search the menu… try \"strawberry\" or \"oreo\"">
+      <div class="srch-res" id="srRes"></div>
+    </div>
+  </div>
 
   <div class="dots" id="dots"></div>
   <div class="count" id="count">01 / 11</div>
@@ -398,7 +425,6 @@ window.addEventListener('error',e=>{try{fetch('/api/uxlog',{method:'POST',body:'
       <h4>your delivery is<br><em>on its way.</em></h4>
       <p id="ckDoneMsg">We've got your order — we're making it fresh right now.</p>
       <span class="eta">arriving in ~30–45 min</span>
-      <br><a class="cta-wa" id="ckSend" style="display:none;margin-top:18px" href="#" target="_blank" rel="noopener">send order on whatsapp →</a>
       <div class="ck-conf"><i></i><i></i><i></i><i></i><i></i></div>
       <div class="ck-ride"><span>🛵</span></div>
     </div>
@@ -565,17 +591,13 @@ $('#ckForm').addEventListener('submit',e=>{
   const ids=Object.entries(cart).filter(([,q])=>q>0);
   let total=0, lines=[];
   ids.forEach(([id,q])=>{ const m=MENU.find(x=>x.id===id); total+=m.price*q; lines.push(`\u2022 ${q}\u00d7 ${m.name} — ${money(m.price*q)}`); });
-  const msg = `Hello Le R\u00eave Caf\u00e9! I'd like to order:\n\n${lines.join('\n')}\n\nTotal: ${money(total)}\n\nName: ${name}\nPhone: ${phone}\nDelivery to: ${loc}`;
-  // send the order to the cafe's WhatsApp
-  const waUrl = `https://wa.me/${WA}?text=${encodeURIComponent(msg)}`;
-  $('#ckSend').href = waUrl;
-  let opened = false;
-  try{ const w = window.open(waUrl,'_blank'); opened = !!w; }catch(_){}
-  // confirmation animation
-  $('#ckDoneMsg').textContent = opened
-    ? `Thanks ${name}! Your order is on its way to us on WhatsApp.`
-    : `Thanks ${name}! One tap left — tap below to send your order to us on WhatsApp.`;
-  $('#ckSend').style.display = opened ? 'none' : 'inline-flex';
+  // order is stored locally and confirmed — cafe receives it from the form data
+  try{
+    const orders = JSON.parse(localStorage.getItem('lereve_orders')||'[]');
+    orders.push({at:new Date().toISOString(), name, phone, loc, items:lines, total});
+    localStorage.setItem('lereve_orders', JSON.stringify(orders));
+  }catch(_){}
+  $('#ckDoneMsg').textContent = `Thanks ${name}! We've got your order — we're making it fresh right now.`;
   ckCard.classList.add('done');
   Object.keys(cart).forEach(k=>delete cart[k]); render();
 });
@@ -583,6 +605,32 @@ $('#orderNow').addEventListener('click',order);$('#orderNow').addEventListener('
 $('#orderPill').addEventListener('click',order);
 $('#cartClose').addEventListener('click',()=>$('#cart').classList.remove('open'));
 
+
+
+const srch=$('#srch'), srInput=$('#srInput'), srRes=$('#srRes');
+function renderSearch(q){
+  q=q.trim().toLowerCase();
+  const hits = MENU.filter(m=>!q || m.name.toLowerCase().includes(q) || m.desc.toLowerCase().includes(q) || m.chips.join(' ').toLowerCase().includes(q));
+  srRes.innerHTML = hits.length ? '' : '<div class="srch-empty">nothing on the menu matches that — try \"matcha\" or \"shake\"</div>';
+  hits.slice(0,8).forEach(m=>{
+    const d=document.createElement('div'); d.className='srch-item';
+    d.innerHTML=`<img src="${m.img}" alt=""><div><b>${m.name}</b><span>${m.desc}</span></div><span class="pr">${money(m.price)}</span>`;
+    d.addEventListener('click',()=>{
+      closeSearch();
+      const i=MENU.indexOf(m);
+      if(document.querySelector('#scene')) go(i);           // landing: carousel jumps
+      else location.href='/';                                // elsewhere: go home to it
+      setTimeout(()=>{ document.querySelector('#scene')?.scrollIntoView({block:'start'}); },80);
+    });
+    srRes.appendChild(d);
+  });
+}
+function openSearch(){ srch.classList.add('open'); renderSearch(''); setTimeout(()=>srInput.focus(),80); }
+function closeSearch(){ srch.classList.remove('open'); }
+$('#searchBtn').addEventListener('click',openSearch);
+$('#srBg').addEventListener('click',closeSearch);
+srInput.addEventListener('input',()=>renderSearch(srInput.value));
+addEventListener('keydown',e=>{ if(e.key==='Escape') closeSearch(); });
 
 /* init */
 const first = MENU[0];
