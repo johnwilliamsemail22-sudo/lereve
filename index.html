@@ -37,15 +37,15 @@ button{font-family:inherit}
   height:min(58vh,640px);aspect-ratio:3/2;filter:drop-shadow(0 10px 30px rgba(0,0,0,.18))}
 .splashPool img{width:100%;height:100%;object-fit:cover;object-position:bottom;display:block;animation:poolmove 8s ease-in-out infinite}
 @keyframes poolmove{0%,100%{transform:translateX(-1.5%)}50%{transform:translateX(1.5%)}}
-.crown{position:absolute;left:50%;top:50%;transform:translate(-50%,-56%);width:clamp(360px,46vw,660px);pointer-events:none;z-index:6}
+.crown{position:absolute;left:50%;top:50%;transform:translate(-50%,-55%);width:clamp(400px,52vw,760px);pointer-events:none;z-index:6}
 .crown img{width:100%;display:block;animation:crownwob 5s ease-in-out infinite;transition:opacity .6s,transform .9s var(--ease-out)}
 @keyframes crownwob{0%,100%{transform:scale(1) rotate(0)}50%{transform:scale(1.025) rotate(-.6deg)}}
 /* tint via hue-rotate per flavor (applied to .tint elements) */
 .tint{transition:filter 1s var(--ease-cine)}
 
 /* ================= drink ================= */
-.drinkwrap{position:absolute;left:50%;top:50%;transform:translate(-50%,-54%);z-index:7;pointer-events:none}
-.drinkwrap img{height:clamp(380px,74vh,760px);filter:drop-shadow(0 50px 60px rgba(0,0,0,.35)) drop-shadow(0 18px 24px rgba(0,0,0,.25))}
+.drinkwrap{position:absolute;left:50%;top:51%;transform:translate(-50%,-52%);z-index:7;pointer-events:none}
+.drinkwrap img{height:clamp(430px,82vh,840px);filter:drop-shadow(0 60px 70px rgba(0,0,0,.4)) drop-shadow(0 24px 30px rgba(0,0,0,.28))}
 .drinkwrap .cup{animation:bob 6s ease-in-out infinite}
 @keyframes bob{0%,100%{transform:translateY(0) rotate(-.6deg)}50%{transform:translateY(-16px) rotate(.7deg)}}
 .drinkwrap.pop .cup{animation:pop .8s var(--ease-out), bob 6s ease-in-out .8s infinite}
@@ -189,8 +189,8 @@ button{font-family:inherit}
   /* scene stays cinematic: giant word behind, big drink, big fruit */
   .bigword{font-size:clamp(80px,30vw,170px);top:38%}
   .drinkwrap{top:50%}
-  .drinkwrap img{height:clamp(230px,40vh,380px)}
-  .crown{width:clamp(230px,70vw,340px)}
+  .drinkwrap img{height:clamp(260px,46vh,430px)}
+  .crown{width:clamp(260px,78vw,380px)}
   .splashPool{height:min(40vh,420px);bottom:-5%}
   .fruits img.dof{filter:blur(5px) drop-shadow(0 12px 14px rgba(0,0,0,.15))}
 
@@ -240,6 +240,47 @@ button{font-family:inherit}
 @media(max-width:420px){
   .reel{flex-basis:100%;max-width:320px;margin:0 auto}
 }
+
+/* ---- checkout overlay ---- */
+.checkout{position:fixed;inset:0;z-index:2000;display:flex;align-items:center;justify-content:center;padding:18px;
+  opacity:0;pointer-events:none;transition:opacity .45s var(--ease-out)}
+.checkout.open{opacity:1;pointer-events:auto}
+.checkout .ck-bg{position:absolute;inset:0;background:rgba(20,12,16,.55);backdrop-filter:blur(8px)}
+.ck-card{position:relative;width:min(420px,100%);background:#FAF5E9;border-radius:24px;padding:26px 24px 24px;
+  box-shadow:0 40px 80px -20px rgba(0,0,0,.5);transform:translateY(30px) scale(.96);transition:transform .5s var(--ease-spring);max-height:90vh;overflow:auto}
+.checkout.open .ck-card{transform:none}
+.ck-card h3{font-family:'Fraunces',serif;font-weight:900;font-size:26px;color:#241B10}
+.ck-card h3 em{font-style:italic;font-weight:500}
+.ck-sum{margin:14px 0 6px;padding:12px 14px;background:rgba(36,27,16,.06);border-radius:14px;font:600 12.5px/1.7 'Manrope';color:rgba(36,27,16,.8)}
+.ck-sum b{font-family:'Fraunces',serif;font-weight:900;color:#241B10;font-size:15px}
+.ck-field{margin-top:14px}
+.ck-field label{display:block;font:800 9.5px/1 'Manrope';letter-spacing:.2em;text-transform:uppercase;color:#8a6543;margin-bottom:7px}
+.ck-field input,.ck-field textarea{width:100%;border:1.5px solid rgba(36,27,16,.18);background:#fff;border-radius:12px;padding:12px 14px;font:600 14px/1.4 'Manrope';color:#241B10;outline:none;transition:border .3s}
+.ck-field input:focus,.ck-field textarea:focus{border-color:#8a6543}
+.ck-field textarea{resize:none;height:64px}
+.ck-go{width:100%;margin-top:20px;background:#241B10;color:#FAF5E9;border:0;border-radius:999px;padding:16px;font:800 12px/1 'Manrope';letter-spacing:.16em;text-transform:uppercase;cursor:pointer;transition:transform .3s var(--ease-spring)}
+.ck-go:hover{transform:translateY(-2px)}
+.ck-close{position:absolute;top:14px;right:14px;border:0;background:rgba(36,27,16,.08);width:32px;height:32px;border-radius:50%;font-size:15px;cursor:pointer;color:#241B10}
+/* success state */
+.ck-success{display:none;text-align:center;padding:26px 6px 10px}
+.ck-card.done form,.ck-card.done .ck-sum,.ck-card.done h3{display:none}
+.ck-card.done .ck-success{display:block}
+.ck-mark{width:86px;height:86px;margin:0 auto 18px;border-radius:50%;background:#1E4432;display:flex;align-items:center;justify-content:center;animation:popin .7s var(--ease-spring)}
+@keyframes popin{0%{transform:scale(0)}60%{transform:scale(1.12)}100%{transform:scale(1)}}
+.ck-mark svg{width:40px;height:40px;fill:none;stroke:#FAF5E9;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:60;stroke-dashoffset:60;animation:draw .8s .35s var(--ease-out) forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+.ck-success h4{font-family:'Fraunces',serif;font-weight:900;font-size:24px;color:#241B10}
+.ck-success h4 em{font-style:italic;font-weight:500}
+.ck-success p{margin-top:10px;font:500 13.5px/1.7 'Manrope';color:rgba(36,27,16,.72)}
+.ck-success .eta{margin-top:14px;display:inline-block;background:rgba(30,68,50,.1);color:#1E4432;border-radius:999px;padding:10px 18px;font:800 11px/1 'Manrope';letter-spacing:.14em;text-transform:uppercase}
+.ck-conf{margin:18px auto 0;width:120px;height:14px;display:flex;gap:6px;justify-content:center}
+.ck-conf i{width:8px;height:8px;border-radius:50%;background:#1E4432;opacity:.25;animation:conf 1.2s ease-in-out infinite}
+.ck-conf i:nth-child(2){animation-delay:.15s}.ck-conf i:nth-child(3){animation-delay:.3s}.ck-conf i:nth-child(4){animation-delay:.45s}.ck-conf i:nth-child(5){animation-delay:.6s}
+@keyframes conf{0%,100%{opacity:.25;transform:translateY(0)}50%{opacity:1;transform:translateY(-6px)}}
+/* scooter ride-by */
+.ck-ride{margin-top:22px;height:40px;position:relative;overflow:hidden;border-radius:12px;background:rgba(30,68,50,.08)}
+.ck-ride span{position:absolute;top:6px;left:-60px;font-size:22px;animation:ride 2.6s .6s ease-in-out infinite}
+@keyframes ride{0%{left:-60px}55%{left:calc(100% - 40px)}100%{left:calc(100% + 60px)}}
 </style>
 </head>
 <body>
@@ -332,13 +373,37 @@ window.addEventListener('error',e=>{try{fetch('/api/uxlog',{method:'POST',body:'
     <div class="cart-items" id="cartItems"></div>
     <div class="cart-row2">
       <span class="cart-total" id="cartTotal">KES 0</span>
-      <button class="wabtn" id="orderNow">order on whatsapp</button>
+      <button class="wabtn" id="orderNow">place order</button>
       <button class="cls" id="cartClose" aria-label="close">✕</button>
     </div>
   </div>
 </div>
 
 <div class="toast" id="toast"></div>
+<!-- CHECKOUT -->
+<div class="checkout" id="checkout">
+  <div class="ck-bg" id="ckBg"></div>
+  <div class="ck-card" id="ckCard">
+    <button class="ck-close" id="ckClose" aria-label="close">✕</button>
+    <h3>almost <em>yours.</em></h3>
+    <div class="ck-sum" id="ckSum">your cart is empty</div>
+    <form id="ckForm">
+      <div class="ck-field"><label>your name</label><input name="name" required placeholder="e.g. Amina"></div>
+      <div class="ck-field"><label>phone number</label><input name="phone" required type="tel" placeholder="07xx xxx xxx"></div>
+      <div class="ck-field"><label>delivery location</label><textarea name="loc" required placeholder="estate / street, landmark…"></textarea></div>
+      <button class="ck-go" type="submit">place my order</button>
+    </form>
+    <div class="ck-success">
+      <div class="ck-mark"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg></div>
+      <h4>your delivery is<br><em>on its way.</em></h4>
+      <p id="ckDoneMsg">We've got your order — we're making it fresh right now.</p>
+      <span class="eta">arriving in ~30–45 min</span>
+      <div class="ck-conf"><i></i><i></i><i></i><i></i><i></i></div>
+      <div class="ck-ride"><span>🛵</span></div>
+    </div>
+  </div>
+</div>
+
 
 <script>
 /* word, chips, colors, kcal/ml, fruit set per flavor — modeled on the reference video */
@@ -393,15 +458,14 @@ function scatterFruit(kind){
 
 function showWord(word){
   const stage = $('#wordstage');
-  const old = stage.querySelector('.bigword');
+  // every word currently on stage slides out and is removed — no stragglers
+  stage.querySelectorAll('.bigword').forEach(w=>{
+    w.classList.remove('word-in'); void w.offsetWidth; w.classList.add('word-out');
+    setTimeout(()=>w.remove(), 850);
+  });
   const el = document.createElement('h1');
   el.className = 'bigword word-in';
-  el.innerHTML = word.replace(/i(?=[a-z]*$|$)/g, m=>m) ; // plain
-  // diamond accents: replace the dot-less i tittles visually via ✦ after first letter cluster is overkill; add trailing diamond like the video's ✦ near word end
-  if(old){
-    old.classList.remove('word-in'); old.classList.add('word-out');
-    setTimeout(()=>old.remove(), 900);
-  }
+  el.textContent = word;
   stage.appendChild(el);
 }
 
@@ -480,15 +544,35 @@ function render(){
 }
 $('#addBtn').addEventListener('click',()=>{ const m=MENU[idx]; cart[m.id]=(cart[m.id]||0)+1; render(); showToast('added · '+m.name); });
 document.addEventListener('click',e=>{ const x=e.target.closest('.cline .x'); if(x){ delete cart[x.dataset.id]; render(); } });
+const checkout=$('#checkout'), ckCard=$('#ckCard');
 function order(){
   const ids=Object.entries(cart).filter(([,q])=>q>0);
-  if(!ids.length){ showToast('add something first ✨'); return; }
+  if(!ids.length){ showToast('add something first \u2728'); return; }
   let total=0, lines=[];
-  ids.forEach(([id,q])=>{ const m=MENU.find(x=>x.id===id); total+=m.price*q; lines.push(`• ${q}× ${m.name} — ${money(m.price*q)}`); });
-  const msg = `Hello Le Rêve Café! I'd like to order:\n\n${lines.join('\n')}\n\nTotal: ${money(total)}\n\nName: \nPickup or delivery: `;
-  window.open(`https://wa.me/${WA}?text=${encodeURIComponent(msg)}`,'_blank');
+  ids.forEach(([id,q])=>{ const m=MENU.find(x=>x.id===id); total+=m.price*q; lines.push(`${q}\u00d7 ${m.name} — ${money(m.price*q)}`); });
+  $('#ckSum').innerHTML = lines.join('<br>') + '<br><b>Total: '+money(total)+'</b>';
+  checkout.classList.add('open');
+  ckCard.classList.remove('done');
 }
-$('#orderNow').addEventListener('click',order);
+function closeCheckout(){ checkout.classList.remove('open'); }
+$('#ckClose').addEventListener('click',closeCheckout);
+$('#ckBg').addEventListener('click',closeCheckout);
+$('#ckForm').addEventListener('submit',e=>{
+  e.preventDefault();
+  const f=new FormData(e.target);
+  const name=f.get('name'), phone=f.get('phone'), loc=f.get('loc');
+  const ids=Object.entries(cart).filter(([,q])=>q>0);
+  let total=0, lines=[];
+  ids.forEach(([id,q])=>{ const m=MENU.find(x=>x.id===id); total+=m.price*q; lines.push(`\u2022 ${q}\u00d7 ${m.name} — ${money(m.price*q)}`); });
+  const msg = `Hello Le R\u00eave Caf\u00e9! I'd like to order:\n\n${lines.join('\n')}\n\nTotal: ${money(total)}\n\nName: ${name}\nPhone: ${phone}\nDelivery to: ${loc}`;
+  // send the order to the cafe's WhatsApp in the background
+  try{ window.open(`https://wa.me/${WA}?text=${encodeURIComponent(msg)}`,'_blank'); }catch(_){}
+  // confirmation animation
+  $('#ckDoneMsg').textContent = `Thanks ${name}! We've got your order — we're making it fresh right now.`;
+  ckCard.classList.add('done');
+  Object.keys(cart).forEach(k=>delete cart[k]); render();
+});
+$('#orderNow').addEventListener('click',order);$('#orderNow').addEventListener('click',order);
 $('#orderPill').addEventListener('click',order);
 $('#cartClose').addEventListener('click',()=>$('#cart').classList.remove('open'));
 
