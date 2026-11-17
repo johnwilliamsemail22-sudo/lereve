@@ -50,6 +50,8 @@ button{font-family:inherit}
 @keyframes bob{0%,100%{transform:translateY(0) rotate(-.6deg)}50%{transform:translateY(-16px) rotate(.7deg)}}
 .drinkwrap.pop .cup{animation:pop .8s var(--ease-out), bob 6s ease-in-out .8s infinite}
 @keyframes pop{0%{transform:scale(.55) translateY(60px);opacity:0}55%{transform:scale(1.06)}100%{transform:scale(1);opacity:1}}
+.crown.pop2{animation:crownpulse .9s var(--ease-out)}
+@keyframes crownpulse{0%{transform:translate(-50%,-53%) scale(.85);opacity:.4}60%{transform:translate(-50%,-55%) scale(1.08)}100%{transform:translate(-50%,-53%) scale(1)}}
 
 /* ================= giant word ================= */
 .wordstage{position:absolute;inset:0;z-index:4;pointer-events:none;display:flex;align-items:center;overflow:hidden}
@@ -181,18 +183,18 @@ button{font-family:inherit}
 @media(max-width:760px){
   /* nav: row 1 = logo + icons, row 2 = centered pill links (own space) */
   .nav{padding:10px 12px 8px;flex-wrap:wrap;gap:8px}
-  .logo{font-size:16px;white-space:nowrap;flex-shrink:0}
-  .navmid{position:static;transform:none;order:3;flex:0 0 100%;margin:0 auto;padding:4px;gap:2px;justify-content:center;width:max-content}
-  .navmid a{padding:8px 12px;font-size:10px;white-space:nowrap}
-  .whitepill{padding:9px 13px;font-size:10px;flex-shrink:0}
+  .logo{font-size:19px;font-weight:800;white-space:nowrap;flex-shrink:0;text-shadow:0 2px 10px rgba(0,0,0,.25)}
+  .navmid{position:static;transform:none;order:3;flex:0 0 100%;margin:0 auto;padding:5px;gap:2px;justify-content:center;width:max-content}
+  .navmid a{padding:9px 14px;font-size:11px;font-weight:700;white-space:nowrap}
+  .whitepill{padding:11px 16px;font-size:11px;font-weight:800;flex-shrink:0;box-shadow:0 8px 20px rgba(0,0,0,.22)}
   .icobtn{width:30px;height:30px;flex-shrink:0}
   .navright{gap:6px}
   #pinTop{display:none}
 
   /* scene stays cinematic: giant word behind, big drink, big fruit */
   .bigword{font-size:clamp(72px,26vw,150px);top:31%}
-  .drinkwrap{top:50%}
-  .drinkwrap img{height:min(42vh,440px)}
+  .drinkwrap{top:48%}
+  .drinkwrap img{height:min(50vh,540px)}
   .crown{width:clamp(280px,88vw,420px)}
   .splashPool{height:min(26vh,280px);bottom:-4%}
   .fruits img.dof{filter:blur(5px) drop-shadow(0 12px 14px rgba(0,0,0,.15))}
@@ -301,6 +303,24 @@ button{font-family:inherit}
 .ck-ride{margin-top:22px;height:40px;position:relative;overflow:hidden;border-radius:12px;background:rgba(30,68,50,.08)}
 .ck-ride span{position:absolute;top:6px;left:-60px;font-size:22px;animation:ride 2.6s .6s ease-in-out infinite}
 @keyframes ride{0%{left:-60px}55%{left:calc(100% - 40px)}100%{left:calc(100% + 60px)}}
+
+/* entrance choreography */
+.drinkwrap.enter .cup{animation:riseup 1.1s var(--ease-out), bob 6s ease-in-out 1.1s infinite}
+@keyframes riseup{0%{transform:translateY(60vh) scale(.5);opacity:0}60%{transform:translateY(-4vh) scale(1.05)}80%{transform:translateY(1vh)}100%{transform:translateY(0) scale(1);opacity:1}}
+.crown.enter{animation:crownburst 1.2s .25s var(--ease-out)}
+@keyframes crownburst{0%{opacity:0;transform:translate(-50%,-46%) scale(.4)}55%{opacity:1;transform:translate(-50%,-55%) scale(1.12)}100%{opacity:1;transform:translate(-50%,-53%) scale(1)}}
+.splashPool.enter{animation:poolrise 1.3s .15s var(--ease-out)}
+@keyframes poolrise{0%{transform:translateX(-50%) translateY(30vh)}100%{transform:translateX(-50%) translateY(0)}}
+.nav.enter{animation:navdrop .8s var(--ease-out)}
+@keyframes navdrop{0%{transform:translateY(-70px);opacity:0}100%{transform:none;opacity:1}}
+.prodcard.enter{animation:cardup .9s .55s var(--ease-out) backwards}
+@keyframes cardup{0%{transform:translateY(60px);opacity:0}100%{transform:none;opacity:1}}
+.ring.enter{animation:ringin 1s .5s var(--ease-spring) backwards}
+@keyframes ringin{0%{transform:translate(-50%,-50%) scale(.3);opacity:0}100%{transform:translate(-50%,-50%) scale(1);opacity:1}}
+.sidechips.enter .schip{animation:chipin .6s var(--ease-out) backwards}
+.sidechips.enter .schip:nth-child(1){animation-delay:.7s}
+.sidechips.enter .schip:nth-child(2){animation-delay:.82s}
+.sidechips.enter .schip:nth-child(3){animation-delay:.94s}
 </style>
 </head>
 <body>
@@ -323,7 +343,7 @@ window.addEventListener('error',e=>{try{fetch('/api/uxlog',{method:'POST',body:'
   <div class="wordstage" id="wordstage"></div>
 
   <!-- crown splash + drink -->
-  <div class="crown"><img class="tint" id="crownImg" src="assets/gen/crown.png" alt=""></div>
+  <div class="crown" id="crownBox"><img class="tint" id="crownImg" src="assets/gen/crown.png" alt=""></div>
   <div class="drinkwrap" id="drinkwrap"><img class="cup" id="drinkImg" alt=""></div>
 
   <!-- floating fruit -->
@@ -534,6 +554,7 @@ function go(i){
   const dw = $('#drinkwrap'), img = $('#drinkImg');
   img.src = m.img; img.alt = m.name;
   dw.classList.remove('pop'); void dw.offsetWidth; dw.classList.add('pop');
+  const cb=$('#crownBox'); cb.classList.remove('pop2'); void cb.offsetWidth; cb.classList.add('pop2');
 
   $('#count').textContent = String(idx+1).padStart(2,'0')+' / '+String(MENU.length).padStart(2,'0');
   document.querySelectorAll('.dot').forEach((d,j)=>d.classList.toggle('on', j===idx));
@@ -631,6 +652,23 @@ $('#searchBtn').addEventListener('click',openSearch);
 $('#srBg').addEventListener('click',closeSearch);
 srInput.addEventListener('input',()=>renderSearch(srInput.value));
 addEventListener('keydown',e=>{ if(e.key==='Escape') closeSearch(); });
+
+/* preload every drink + fruit image so transitions never show the old one */
+MENU.forEach(m=>{ const i=new Image(); i.src=m.img; });
+Object.values(FRUIT).forEach(u=>{ const i=new Image(); i.src=u; });
+
+/* entrance choreography on first paint */
+function entrance(){
+  const dw=$('#drinkwrap'); dw.classList.add('enter');
+  $('#crownBox').classList.add('enter');
+  document.querySelector('.splashPool').classList.add('enter');
+  document.querySelector('.nav').classList.add('enter');
+  $('#prodcard').classList.add('enter');
+  document.querySelector('.ring').classList.add('enter');
+  document.querySelector('.sidechips').classList.add('enter');
+}
+if(document.readyState==='complete') entrance(); else addEventListener('load',entrance);
+setTimeout(entrance, 600); /* safety net: never wait on a slow asset */
 
 /* init */
 const first = MENU[0];
