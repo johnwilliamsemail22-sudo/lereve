@@ -1,808 +1,549 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Le Rêve — Cafe Malindi</title>
-<link rel="icon" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="14" fill="%232A2014"/><path d="M16 50 L16 28 A16 16 0 0 1 48 28 L48 50 Z" fill="%23CAA872"/></svg>'>
-<link rel="preload" as="image" href="assets/gen/pool.webp" fetchpriority="high">
-<link rel="preload" as="image" href="assets/gen/crown.webp" fetchpriority="high">
-<link rel="preload" as="image" href="assets/straw_cut.webp" fetchpriority="high">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<style>
-:root{
-  /* flavor scene colors (set by JS) */
-  --bg1:#d98a95; --bg2:#b95f6e; --bg3:#9d4a58; --splash:#c96a78; --card:rgba(255,235,238,.55); --chipbg:rgba(255,255,255,.16);
-  --cream:#F6E8D8; --ink:#3A2430;
-  --ease-cine:cubic-bezier(.65,.05,.2,1); --ease-out:cubic-bezier(.22,1,.36,1); --ease-spring:cubic-bezier(.34,1.3,.64,1);
-}
-*{margin:0;padding:0;box-sizing:border-box}
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Le Rêve — Cafe Malindi</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg1: #d98a95;
+      --bg2: #b95f6e;
+      --bg3: #9d4a58;
+      --splash: #c96a78;
+      --card: rgba(255,235,238,.55);
+      --chipbg: rgba(255,255,255,.16);
+      --cream: #F6E8D8;
+      --ink: #3A2430;
+      --ease-cine: cubic-bezier(.65,.05,.2,1);
+      --ease-out: cubic-bezier(.22,1,.36,1);
+      --ease-spring: cubic-bezier(.34,1.3,.64,1);
+    }
 
-body{font-family:'Manrope',sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased;overflow-x:hidden;background:#000}
-a{color:inherit;text-decoration:none}
-button{font-family:inherit}
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Manrope', sans-serif;
+      color: var(--ink);
+      background: #000;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; }
+    img { display: block; max-width: 100%; }
 
-/* ================= scene ================= */
-.scene{position:relative;height:100vh;overflow:hidden;
-  background:
-    radial-gradient(130% 100% at 50% -10%, var(--bg1) 0%, var(--bg2) 55%, var(--bg3) 100%);
-  transition:background 1s var(--ease-cine)}
-/* soft bokeh blobs (depth of field feel) */
-.bokeh{position:absolute;inset:0;pointer-events:none;overflow:hidden}
-.bokeh i{position:absolute;border-radius:50%;background:rgba(255,255,255,.14);filter:blur(30px);animation:bokeh 9s ease-in-out infinite}
-.bokeh i:nth-child(2){animation-delay:-3s}.bokeh i:nth-child(3){animation-delay:-5s}.bokeh i:nth-child(4){animation-delay:-7s}
-@keyframes bokeh{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-24px) scale(1.06)}}
+    .scene {
+      position: relative;
+      height: 100vh;
+      overflow: hidden;
+      background: radial-gradient(130% 100% at 50% -10%, var(--bg1) 0%, var(--bg2) 55%, var(--bg3) 100%);
+      transition: background 1s var(--ease-cine);
+    }
 
-/* splash layers */
-.splashPool{position:absolute;left:50%;bottom:-6%;transform:translateX(-50%);pointer-events:none;
-  height:min(58vh,640px);aspect-ratio:3/2;filter:drop-shadow(0 10px 30px rgba(0,0,0,.18))}
-.splashPool img{width:100%;height:100%;object-fit:cover;object-position:bottom;display:block;animation:poolmove 8s ease-in-out infinite}
-@keyframes poolmove{0%,100%{transform:translateX(-1.5%)}50%{transform:translateX(1.5%)}}
-.crown{position:absolute;left:50%;top:50%;transform:translate(-50%,-53%);width:clamp(460px,60vw,900px);pointer-events:none;z-index:6}
-.crown img{width:100%;display:block;animation:crownwob 5s ease-in-out infinite;transition:opacity .6s,transform .9s var(--ease-out)}
-@keyframes crownwob{0%,100%{transform:scale(1) rotate(0)}50%{transform:scale(1.025) rotate(-.6deg)}}
-/* tint via hue-rotate per flavor (applied to .tint elements) */
-.tint{transition:filter 1s var(--ease-cine)}
+    .bokeh { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+    .bokeh i {
+      position: absolute; border-radius: 50%;
+      background: rgba(255,255,255,.14);
+      filter: blur(30px);
+      animation: bokeh 9s ease-in-out infinite;
+    }
+    .bokeh i:nth-child(2) { animation-delay: -3s; }
+    .bokeh i:nth-child(3) { animation-delay: -5s; }
+    .bokeh i:nth-child(4) { animation-delay: -7s; }
+    @keyframes bokeh { 0%,100% { transform: translateY(0) scale(1); } 50% { transform: translateY(-24px) scale(1.06); } }
 
-/* ================= drink ================= */
-.drinkwrap{position:absolute;left:50%;top:51%;transform:translate(-50%,-52%);z-index:7;pointer-events:none}
-.drinkwrap img{height:min(94vh,1000px);filter:drop-shadow(0 60px 70px rgba(0,0,0,.4)) drop-shadow(0 24px 30px rgba(0,0,0,.28))}
-.drinkwrap .cup{animation:bob 6s ease-in-out infinite}
-@keyframes bob{0%,100%{transform:translateY(0) rotate(-.6deg)}50%{transform:translateY(-16px) rotate(.7deg)}}
-.drinkwrap.pop .cup{animation:pop .8s var(--ease-out), bob 6s ease-in-out .8s infinite}
-@keyframes pop{0%{transform:scale(.55) translateY(60px);opacity:0}55%{transform:scale(1.06)}100%{transform:scale(1);opacity:1}}
-.crown.pop2{animation:crownpulse .9s var(--ease-out)}
-@keyframes crownpulse{0%{transform:translate(-50%,-53%) scale(.85);opacity:.4}60%{transform:translate(-50%,-55%) scale(1.08)}100%{transform:translate(-50%,-53%) scale(1)}}
+    .splashPool {
+      position: absolute;
+      left: 50%;
+      bottom: -6%;
+      transform: translateX(-50%);
+      pointer-events: none;
+      height: min(58vh, 640px);
+      aspect-ratio: 3 / 2;
+      filter: drop-shadow(0 10px 30px rgba(0,0,0,.18));
+      z-index: 2;
+    }
+    .splashPool img {
+      width: 100%; height: 100%; object-fit: cover; object-position: bottom;
+      display: block;
+      animation: poolmove 8s ease-in-out infinite;
+    }
+    @keyframes poolmove { 0%,100% { transform: translateX(-1.5%); } 50% { transform: translateX(1.5%); } }
+    .splashPool.splash-now { animation: splashhit .85s var(--ease-spring); }
+    @keyframes splashhit {
+      0% { transform: translateX(-50%) scale(.72); opacity: .55; }
+      60% { transform: translateX(-50%) scale(1.08); opacity: 1; }
+      100% { transform: translateX(-50%) scale(1); opacity: 1; }
+    }
 
-/* ================= giant word ================= */
-.wordstage{position:absolute;inset:0;z-index:4;pointer-events:none;display:flex;align-items:center;overflow:hidden}
-.bigword{position:absolute;left:50%;top:47%;transform:translate(-50%,-50%);
-  font-family:'Fraunces',serif;font-weight:900;font-size:clamp(120px,24vw,360px);line-height:1;
-  color:var(--cream);opacity:.92;white-space:nowrap;letter-spacing:-.02em;
-  text-shadow:0 12px 40px rgba(0,0,0,.1)}
-.bigword .dia{font-size:.42em;vertical-align:.42em}
-/* word slide transition: old exits left, new enters from right (both visible) */
-.word-in{animation:win .85s var(--ease-cine) forwards}
-.word-out{animation:wout .85s var(--ease-cine) forwards}
-@keyframes win{from{transform:translate(60vw,-50%);opacity:.4}to{transform:translate(-50%,-50%);opacity:1}}
-@keyframes wout{from{transform:translate(-50%,-50%);opacity:1}to{transform:translate(-110vw,-50%);opacity:.6}}
+    .crown {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -53%);
+      width: clamp(460px, 60vw, 900px);
+      pointer-events: none;
+      z-index: 6;
+    }
+    .crown img {
+      width: 100%;
+      display: block;
+      animation: crownwob 5s ease-in-out infinite;
+      transition: opacity .6s, transform .9s var(--ease-out);
+    }
+    @keyframes crownwob { 0%,100% { transform: scale(1) rotate(0); } 50% { transform: scale(1.025) rotate(-.6deg); } }
+    .crown.pop2 { animation: crownpulse .9s var(--ease-out); }
+    @keyframes crownpulse {
+      0% { transform: translate(-50%, -53%) scale(.85); opacity: .4; }
+      60% { transform: translate(-50%, -55%) scale(1.08); }
+      100% { transform: translate(-50%, -53%) scale(1); }
+    }
 
-/* ================= floating fruit ================= */
-.fruits{position:absolute;inset:0;z-index:8;pointer-events:none}
-.fruits img{position:absolute;opacity:0;filter:drop-shadow(0 16px 18px rgba(0,0,0,.22))}
-.fruits img.on{animation:fruity 9s ease-in-out forwards}
-@keyframes fruity{
-  0%{opacity:0;transform:translate(4vw,6vh) rotate(var(--r0)) scale(.9)}
-  12%{opacity:1}
-  88%{opacity:1}
-  100%{opacity:0;transform:translate(-4vw,-7vh) rotate(var(--r1)) scale(1)}}
- .fruits img.dof{filter:blur(7px) drop-shadow(0 16px 18px rgba(0,0,0,.15))}
+    .drinkwrap {
+      position: absolute;
+      left: 50%;
+      top: 51%;
+      transform: translate(-50%, -52%);
+      z-index: 7;
+      pointer-events: none;
+    }
+    .drinkwrap img {
+      height: min(94vh, 1000px);
+      filter: drop-shadow(0 60px 70px rgba(0,0,0,.4)) drop-shadow(0 24px 30px rgba(0,0,0,.28));
+    }
+    .drinkwrap .cup { animation: bob 6s ease-in-out infinite; }
+    @keyframes bob { 0%,100% { transform: translateY(0) rotate(-.6deg); } 50% { transform: translateY(-16px) rotate(.7deg); } }
+    .drinkwrap.pop .cup { animation: riseup .95s var(--ease-out), bob 6s ease-in-out .95s infinite; }
+    @keyframes riseup {
+      0% { transform: translateY(60vh) scale(.5); opacity: 0; }
+      60% { transform: translateY(-4vh) scale(1.05); opacity: 1; }
+      80% { transform: translateY(1vh); }
+      100% { transform: translateY(0) scale(1); opacity: 1; }
+    }
 
-/* ================= nav ================= */
-.nav{position:absolute;top:0;left:0;right:0;z-index:60;display:flex;align-items:center;justify-content:space-between;
-  padding:20px clamp(18px,3.4vw,44px);color:#fff}
-.logo{font-family:'Fraunces',serif;font-weight:700;font-style:italic;font-size:21px;display:flex;align-items:center;gap:8px;
-  text-shadow:0 2px 12px rgba(0,0,0,.18)}
-.logo .dia{font-size:13px}
-.navmid{position:absolute;left:50%;transform:translateX(-50%);display:flex;gap:4px;align-items:center;
-  background:var(--chipbg);backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,.25);border-radius:999px;padding:5px}
-.navmid a{font:600 12.5px/1 'Manrope';padding:9px 16px;border-radius:999px;color:#fff;opacity:.85;transition:all .3s var(--ease-out)}
-.navmid a:hover{opacity:1}
-.navmid a.active{background:rgba(255,255,255,.92);color:var(--ink);opacity:1;font-weight:700}
-.navright{display:flex;align-items:center;gap:12px}
-.icobtn{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;opacity:.85;cursor:pointer;border:0;background:transparent}
-.icobtn:hover{opacity:1}
-.icobtn svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round}
-.whitepill{background:#fff;color:#2b2b2b;border:0;border-radius:999px;padding:12px 20px;font:700 12px/1 'Manrope';cursor:pointer;
-  box-shadow:0 8px 22px rgba(0,0,0,.16);transition:transform .3s var(--ease-spring)}
-.whitepill:hover{transform:translateY(-2px)}
+    .wordstage {
+      position: absolute; inset: 0; z-index: 4; pointer-events: none;
+      display: flex; align-items: center; overflow: hidden;
+    }
+    .bigword {
+      position: absolute; left: 50%; top: 47%; transform: translate(-50%, -50%);
+      font-family: 'Fraunces', serif; font-weight: 900; font-size: clamp(120px, 24vw, 360px);
+      line-height: 1; color: var(--cream); opacity: .92; white-space: nowrap; letter-spacing: -.02em;
+      text-shadow: 0 12px 40px rgba(0,0,0,.1);
+    }
+    .word-in { animation: win .85s var(--ease-cine) forwards; }
+    .word-out { animation: wout .85s var(--ease-cine) forwards; }
+    @keyframes win { from { transform: translate(60vw,-50%); opacity: .4; } to { transform: translate(-50%,-50%); opacity: 1; } }
+    @keyframes wout { from { transform: translate(-50%,-50%); opacity: 1; } to { transform: translate(-110vw,-50%); opacity: .6; } }
 
-/* ================= flavor chips (top-center, behind drink) ================= */
-.sidechips{position:absolute;left:50%;top:27%;transform:translateX(-50%);z-index:9;display:flex;gap:9px}
-.schip{font:700 11px/1 'Manrope';letter-spacing:.12em;text-transform:uppercase;color:#fff;
-  background:rgba(0,0,0,.16);border:1px solid rgba(255,255,255,.25);backdrop-filter:blur(8px);
-  border-radius:999px;padding:9px 16px;opacity:0;transform:translateY(10px)}
-.schip.on{animation:chipin .6s var(--ease-out) forwards}
-@keyframes chipin{to{opacity:1;transform:none}}
+    .nav {
+      position: absolute;
+      top: 0; left: 0; right: 0; z-index: 60;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 20px clamp(18px,3.4vw,44px);
+      color: #fff;
+    }
+    .logo { font-family: 'Fraunces', serif; font-weight: 700; font-style: italic; font-size: 21px; }
+    .navmid {
+      position: absolute; left: 50%; transform: translateX(-50%);
+      display: flex; gap: 4px; align-items: center;
+      background: var(--chipbg); backdrop-filter: blur(14px);
+      border: 1px solid rgba(255,255,255,.25); border-radius: 999px; padding: 5px;
+    }
+    .navmid a {
+      font: 600 12.5px/1 'Manrope'; padding: 9px 16px; border-radius: 999px; color: #fff; opacity: .85;
+    }
+    .navmid a.active { background: rgba(255,255,255,.92); color: var(--ink); opacity: 1; font-weight: 700; }
+    .navright { display: flex; align-items: center; gap: 12px; }
+    .icobtn {
+      width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      color: #fff; opacity: .85; cursor: pointer; border: 0; background: transparent;
+    }
+    .icobtn svg { width: 17px; height: 17px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; }
+    .whitepill {
+      background: #fff; color: #2b2b2b; border: 0; border-radius: 999px; padding: 12px 20px; font: 700 12px/1 'Manrope';
+      cursor: pointer; box-shadow: 0 8px 22px rgba(0,0,0,.16);
+    }
 
-/* ================= product card (bottom-left) ================= */
-.prodcard{position:absolute;left:clamp(18px,3.4vw,48px);bottom:clamp(22px,6vh,54px);z-index:60;
-  display:flex;align-items:center;gap:14px;padding:14px;border-radius:22px;
-  background:var(--card);backdrop-filter:blur(18px);border:1px solid rgba(255,255,255,.45);
-  box-shadow:0 24px 50px -18px rgba(0,0,0,.28);max-width:min(480px,calc(100vw - 36px));
-  transition:background 1s var(--ease-cine)}
-.prodcard.slide-out{animation:pcout .55s var(--ease-cine) forwards}
-.prodcard.slide-in{animation:pcin .6s var(--ease-cine) forwards}
-@keyframes pcout{to{transform:translateX(-60px);opacity:0}}
-@keyframes pcin{from{transform:translateX(60px);opacity:0}to{transform:none;opacity:1}}
-.stats{display:flex;flex-direction:column;gap:7px}
-.stat{background:rgba(255,255,255,.8);border-radius:12px;padding:8px 13px;text-align:center;min-width:62px}
-.stat b{display:block;font:800 15px/1.1 'Manrope';color:#333}
-.stat span{font:600 8.5px/1 'Manrope';letter-spacing:.08em;text-transform:uppercase;color:#8a7a80}
-.pthumb{width:76px;height:96px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.pthumb img{max-width:100%;max-height:100%;object-fit:contain;filter:drop-shadow(0 10px 12px rgba(0,0,0,.2))}
-.pinfo{min-width:0}
-.pinfo h3{font:800 16px/1.2 'Manrope';color:#3c2b33}
-.pinfo p{margin-top:4px;font:500 11.5px/1.5 'Manrope';color:rgba(60,43,51,.75);max-width:190px}
-.pact{margin-top:12px;display:flex;gap:8px;align-items:center}
-.addbtn{background:#fff;color:#2b2b2b;border:0;border-radius:999px;padding:11px 18px;font:700 11.5px/1 'Manrope';cursor:pointer;
-  box-shadow:0 6px 16px rgba(0,0,0,.14);transition:transform .3s var(--ease-spring);white-space:nowrap}
-.addbtn:hover{transform:translateY(-2px)}
-.addbtn:active{transform:scale(.94)}
-.pinbtn{width:36px;height:36px;border-radius:50%;background:#262626;border:0;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:transform .3s var(--ease-spring)}
-.pinbtn:hover{transform:translateY(-2px)}
-.pinbtn svg{width:15px;height:15px;fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+    .sidechips {
+      position: absolute; left: 50%; top: 27%; transform: translateX(-50%); z-index: 9; display: flex; gap: 9px;
+    }
+    .schip {
+      font: 700 11px/1 'Manrope'; letter-spacing: .12em; text-transform: uppercase; color: #fff;
+      background: rgba(0,0,0,.16); border: 1px solid rgba(255,255,255,.25); border-radius: 999px;
+      padding: 9px 16px; opacity: 0; transform: translateY(10px);
+    }
+    .schip.on { animation: chipin .6s var(--ease-out) forwards; }
+    @keyframes chipin { to { opacity: 1; transform: none; } }
 
-/* ================= 100% REAL FRUIT ring around the glass base ================= */
-.ring{position:absolute;left:50%;top:58%;transform:translate(-50%,-50%) ;z-index:8;
-  width:clamp(200px,24vw,320px);height:clamp(200px,24vw,320px);pointer-events:none}
-.ring svg{width:100%;height:100%;overflow:visible}
-.ring .rot{animation:spin 16s linear infinite;transform-origin:50% 50%}
-@keyframes spin{to{transform:rotate(360deg)}}
-.ring text{font:700 10px 'Manrope';letter-spacing:.3em;text-transform:uppercase;fill:#fff;opacity:.95}
-.ring .pct{font-family:'Fraunces',serif;font-weight:900;font-size:19px;fill:#fff;letter-spacing:0}
-.ring .dia{fill:#fff;font-size:11px}
+    .prodcard {
+      position: absolute; left: clamp(18px,3.4vw,48px); bottom: clamp(22px,6vh,54px); z-index: 60;
+      display: flex; align-items: center; gap: 14px; padding: 14px; border-radius: 22px;
+      background: var(--card); backdrop-filter: blur(18px); border: 1px solid rgba(255,255,255,.45);
+      box-shadow: 0 24px 50px -18px rgba(0,0,0,.28); max-width: min(480px, calc(100vw - 36px));
+    }
+    .stats { display: flex; flex-direction: column; gap: 7px; }
+    .stat { background: rgba(255,255,255,.8); border-radius: 12px; padding: 8px 13px; text-align: center; min-width: 62px; }
+    .stat b { display: block; font: 800 15px/1.1 'Manrope'; color: #333; }
+    .stat span { font: 600 8.5px/1 'Manrope'; letter-spacing: .08em; text-transform: uppercase; color: #8a7a80; }
+    .pthumb { width: 76px; height: 96px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .pthumb img { max-width: 100%; max-height: 100%; object-fit: contain; }
+    .pinfo { min-width: 0; }
+    .pinfo h3 { font: 800 16px/1.2 'Manrope'; color: #3c2b33; }
+    .pinfo p { margin-top: 4px; font: 500 11.5px/1.5 'Manrope'; color: rgba(60,43,51,.75); max-width: 190px; }
+    .pact { margin-top: 12px; display: flex; gap: 8px; align-items: center; }
+    .addbtn {
+      background: #fff; color: #2b2b2b; border: 0; border-radius: 999px; padding: 11px 18px; font: 700 11.5px/1 'Manrope';
+      cursor: pointer; box-shadow: 0 6px 16px rgba(0,0,0,.14);
+    }
+    .pinbtn {
+      width: 36px; height: 36px; border-radius: 50%; background: #262626; border: 0; color: #fff; cursor: pointer;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .pinbtn svg { width: 15px; height: 15px; fill: none; stroke: #fff; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 
-/* ================= arrows ================= */
-.arrows{position:absolute;right:clamp(18px,3.4vw,48px);bottom:clamp(26px,6vh,54px);z-index:50;display:flex;gap:10px}
-.arrow{width:46px;height:46px;border-radius:50%;background:#fff;border:0;color:#2b2b2b;cursor:pointer;
-  display:flex;align-items:center;justify-content:center;box-shadow:0 10px 24px rgba(0,0,0,.18);transition:all .3s var(--ease-spring)}
-.arrow:hover{transform:translateY(-3px)}
-.arrow:active{transform:scale(.9)}
-.arrow svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+    .ring {
+      position: absolute; left: 50%; top: 58%; transform: translate(-50%, -50%); z-index: 8;
+      width: clamp(200px,24vw,320px); height: clamp(200px,24vw,320px); pointer-events: none;
+    }
+    .ring svg { width: 100%; height: 100%; overflow: visible; }
+    .ring .rot { animation: spin 16s linear infinite; transform-origin: 50% 50%; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .ring text { font: 700 10px 'Manrope'; letter-spacing: .3em; text-transform: uppercase; fill: #fff; opacity: .95; }
+    .ring .pct { font-family: 'Fraunces', serif; font-weight: 900; font-size: 19px; fill: #fff; letter-spacing: 0; }
+    .ring .dia { fill: #fff; font-size: 11px; }
 
-/* ================= cart panel (kept) ================= */
-.cart{position:fixed;top:0;left:0;right:0;z-index:1500;transform:translateY(-110%);transition:transform .7s var(--ease-cine);
-  background:rgba(30,20,26,.96);backdrop-filter:blur(10px);color:#fff;box-shadow:0 24px 50px -20px rgba(0,0,0,.6)}
-.cart.open{transform:none}
-.cart-in{padding:16px clamp(18px,4vw,44px);display:flex;align-items:center;gap:16px;flex-wrap:wrap}
-.cart .clabel{font:800 10px/1 'Manrope';letter-spacing:.26em;text-transform:uppercase;color:#e8b7c0;white-space:nowrap}
-.cart-items{display:flex;gap:10px;flex:1;overflow-x:auto;scrollbar-width:none;padding:4px 0}
-.cart-items::-webkit-scrollbar{display:none}
-.cline{display:flex;align-items:center;gap:9px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);border-radius:999px;padding:7px 8px 7px 14px;font:600 12px/1 'Manrope';white-space:nowrap}
-.cline b{font-weight:800}
-.cline .x{cursor:pointer;opacity:.6;border:0;background:none;color:#fff;font-size:14px;line-height:1;padding:2px 5px;border-radius:50%}
-.cline .x:hover{opacity:1;background:rgba(255,255,255,.12)}
-.cart-total{font-family:'Fraunces',serif;font-weight:900;font-size:20px;color:#e8b7c0;white-space:nowrap}
-.wabtn{display:inline-flex;align-items:center;gap:10px;background:#fff;color:#2b2b2b;border-radius:999px;padding:13px 20px;font:800 11px/1 'Manrope';letter-spacing:.1em;text-transform:uppercase;cursor:pointer;border:0;transition:transform .35s var(--ease-spring)}
-.wabtn:hover{transform:translateY(-3px)}
-.cart .cls{background:none;border:0;color:#fff;opacity:.7;cursor:pointer;font-size:18px;line-height:1;padding:6px}
-.cart .cls:hover{opacity:1}
+    .arrows { position: absolute; right: clamp(18px,3.4vw,48px); bottom: clamp(26px,6vh,54px); z-index: 50; display: flex; gap: 10px; }
+    .arrow {
+      width: 46px; height: 46px; border-radius: 50%; background: #fff; border: 0; color: #2b2b2b; cursor: pointer;
+      display: flex; align-items: center; justify-content: center; box-shadow: 0 10px 24px rgba(0,0,0,.18);
+    }
+    .arrow svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
 
-/* toast */
-.toast{position:fixed;left:50%;bottom:110px;transform:translate(-50%,14px);z-index:1600;background:#262626;color:#fff;
-  font:700 10px/1 'Manrope';letter-spacing:.16em;text-transform:uppercase;padding:13px 20px;border-radius:999px;opacity:0;
-  transition:all .4s var(--ease-out);pointer-events:none}
-.toast.on{opacity:1;transform:translate(-50%,0)}
+    .dots { position: absolute; left: 50%; bottom: 14px; transform: translateX(-50%); z-index: 50; display: flex; gap: 8px; }
+    .dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,.35); border: 0; cursor: pointer; }
+    .dot.on { background: #fff; transform: scale(1.4); }
+    .count { position: absolute; top: 92px; right: clamp(18px,3.4vw,48px); z-index: 30; font: 700 11px/1 'Manrope'; letter-spacing: .2em; color: #fff; opacity: .8; }
 
-/* counter */
-.dots{position:absolute;left:50%;bottom:14px;transform:translateX(-50%);z-index:50;display:flex;gap:8px}
-.dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.35);border:0;cursor:pointer;padding:0;transition:all .35s var(--ease-out)}
-.dot.on{background:#fff;transform:scale(1.4)}
-.count{position:absolute;top:92px;right:clamp(18px,3.4vw,48px);z-index:30;font:700 11px/1 'Manrope';letter-spacing:.2em;color:#fff;opacity:.8}
+    .toast {
+      position: fixed; left: 50%; bottom: 110px; transform: translate(-50%, 14px); z-index: 1600; background: #262626; color: #fff;
+      font: 700 10px/1 'Manrope'; letter-spacing: .16em; text-transform: uppercase; padding: 13px 20px; border-radius: 999px; opacity: 0;
+      transition: all .4s var(--ease-out); pointer-events: none;
+    }
+    .toast.on { opacity: 1; transform: translate(-50%, 0); }
 
-@media(max-width:760px){
-  /* nav: row 1 = logo + icons, row 2 = centered pill links (own space) */
-  .nav{padding:10px 12px 8px;flex-wrap:wrap;gap:8px}
-  .logo{font-size:19px;font-weight:800;white-space:nowrap;flex-shrink:0;text-shadow:0 2px 10px rgba(0,0,0,.25)}
-  .navmid{position:static;transform:none;order:3;flex:0 0 100%;margin:0 auto;padding:5px;gap:2px;justify-content:center;width:max-content}
-  .navmid a{padding:9px 14px;font-size:11px;font-weight:700;white-space:nowrap}
-  .whitepill{padding:11px 16px;font-size:11px;font-weight:800;flex-shrink:0;box-shadow:0 8px 20px rgba(0,0,0,.22)}
-  .icobtn{width:30px;height:30px;flex-shrink:0}
-  .navright{gap:6px}
-  #pinTop{display:none}
+    .cart{position:fixed;top:0;left:0;right:0;z-index:1500;transform:translateY(-110%);transition:transform .7s var(--ease-cine);background:rgba(30,20,26,.96);backdrop-filter:blur(10px);color:#fff;box-shadow:0 24px 50px -20px rgba(0,0,0,.6)}
+    .cart.open{transform:none}
+    .cart-in{padding:16px clamp(18px,4vw,44px);display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+    .cart .clabel{font:800 10px/1 'Manrope';letter-spacing:.26em;text-transform:uppercase;color:#e8b7c0;white-space:nowrap}
+    .cart-items{display:flex;gap:10px;flex:1;overflow-x:auto;scrollbar-width:none;padding:4px 0}
+    .cart-items::-webkit-scrollbar{display:none}
+    .cline{display:flex;align-items:center;gap:9px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);border-radius:999px;padding:7px 8px 7px 14px;font:600 12px/1 'Manrope';white-space:nowrap}
+    .cline b{font-weight:800}
+    .cline .x{cursor:pointer;opacity:.6;border:0;background:none;color:#fff;font-size:14px;line-height:1;padding:2px 5px;border-radius:50%}
+    .cline .x:hover{opacity:1;background:rgba(255,255,255,.12)}
+    .cart-total{font-family:'Fraunces',serif;font-weight:900;font-size:20px;color:#e8b7c0;white-space:nowrap}
+    .wabtn{display:inline-flex;align-items:center;gap:10px;background:#fff;color:#2b2b2b;border-radius:999px;padding:13px 20px;font:800 11px/1 'Manrope';letter-spacing:.1em;text-transform:uppercase;cursor:pointer;border:0;}
+    .cart .cls{background:none;border:0;color:#fff;opacity:.7;cursor:pointer;font-size:18px;line-height:1;padding:6px}
+    .cart .cls:hover{opacity:1}
 
-  /* scene stays cinematic: giant word behind, big drink, big fruit */
-  .bigword{font-size:clamp(72px,26vw,150px);top:31%}
-  .drinkwrap{top:48%}
-  .drinkwrap img{height:min(46vh,500px)}
-  .crown{width:clamp(280px,88vw,420px)}
-  .splashPool{height:min(23vh,250px);bottom:-4%}
-  .fruits img.dof{filter:blur(5px) drop-shadow(0 12px 14px rgba(0,0,0,.15))}
-
-  /* chips above the drink */
-  .sidechips{top:13%;flex-wrap:wrap;justify-content:center;max-width:92vw;gap:5px}
-  .schip{padding:8px 13px;font-size:9.5px}
-
-  /* ring hugs the glass base, smaller */
-  .ring{top:56%;width:110px;height:110px}
-  .ring text{font-size:9px;letter-spacing:.26em}
-  .ring .pct{font-size:16px}
-
-  /* product card: full-width glass slab above the arrows */
-  .prodcard{left:10px;right:10px;bottom:70px;max-width:none;padding:9px;gap:9px;border-radius:18px;z-index:60}
-  .stats{flex-direction:row;gap:7px}
-  .stat{padding:7px 10px;min-width:54px}
-  .stat b{font-size:13px}
-  .pthumb{width:48px;height:60px}
-  .pinfo h3{font-size:15px}
-  .pinfo p{font-size:11px;max-width:none}
-  .addbtn{padding:10px 16px;font-size:10.5px}
-  .pinbtn{width:32px;height:32px}
-
-  /* arrows bottom-right, dots bottom-center */
-  .arrows{bottom:18px;right:12px;gap:8px}
-  .arrow{width:42px;height:42px}
-  .dots{bottom:30px;left:50%;right:auto;transform:translateX(-50%)}
-
-  /* about/contact stacks */
-  .abt{padding:60px 18px}
-  .abt h2{font-size:clamp(34px,9vw,52px)}
-  .abt-grid{grid-template-columns:1fr;gap:24px}
-  .collage{grid-template-columns:1fr 1fr;gap:10px}
-  .collage .c1{height:200px}.collage .c2{height:140px}.collage .c3{height:180px}
-  .reels{padding:10px 18px 60px}
-  .reels h2{font-size:clamp(30px,8vw,44px)}
-  .reel{max-width:none;flex-basis:46%}
-  .contact{padding:60px 18px 50px}
-  .contact h2{font-size:clamp(32px,9vw,50px)}
-  .c-row{flex-direction:column;align-items:flex-start;gap:4px;padding:14px 0}
-  .c-row .v{font-size:14px;text-align:left}
-  .foot2{padding:20px 18px 30px;flex-direction:column;gap:6px}
-
-  .count{display:none}
-  .cline{font-size:11.5px;padding:6px 7px 6px 12px}
-}
-@media(max-width:420px){
-  .reel{flex-basis:100%;max-width:320px;margin:0 auto}
-}
-
-/* ---- checkout overlay ---- */
-
-/* search overlay */
-.srch{position:fixed;inset:0;z-index:1400;display:flex;align-items:flex-start;justify-content:center;padding:80px 18px 18px;opacity:0;pointer-events:none;transition:opacity .35s var(--ease-out)}
-.srch.open{opacity:1;pointer-events:auto}
-.srch .sr-bg{position:absolute;inset:0;background:rgba(20,12,16,.5);backdrop-filter:blur(8px)}
-.srch-box{position:relative;width:min(460px,100%);background:#FAF5E9;border-radius:18px;padding:14px;box-shadow:0 30px 60px -20px rgba(0,0,0,.5)}
-.srch-box input{width:100%;border:1.5px solid rgba(36,27,16,.15);border-radius:12px;padding:13px 14px;font:600 15px/1 'Manrope';color:#241B10;outline:none;background:#fff}
-.srch-box input:focus{border-color:#8a6543}
-.srch-res{margin-top:10px;max-height:46vh;overflow:auto}
-.srch-item{display:flex;align-items:center;gap:12px;padding:9px 10px;border-radius:12px;cursor:pointer}
-.srch-item:hover{background:rgba(36,27,16,.07)}
-.srch-item img{width:40px;height:52px;object-fit:contain}
-.srch-item b{font:800 13px/1.2 'Manrope';color:#241B10;display:block}
-.srch-item span{font:600 11px/1.3 'Manrope';color:rgba(36,27,16,.6)}
-.srch-item .pr{margin-left:auto;font:800 12px/1 'Manrope';color:#8a6543;white-space:nowrap}
-.srch-empty{padding:14px 8px;font:600 12.5px/1.5 'Manrope';color:rgba(36,27,16,.55)}
-
-.checkout{position:fixed;inset:0;z-index:2000;display:flex;align-items:center;justify-content:center;padding:18px;
-  opacity:0;pointer-events:none;transition:opacity .45s var(--ease-out)}
-.checkout.open{opacity:1;pointer-events:auto}
-.checkout .ck-bg{position:absolute;inset:0;background:rgba(20,12,16,.55);backdrop-filter:blur(8px)}
-.ck-card{position:relative;width:min(420px,100%);background:#FAF5E9;border-radius:24px;padding:26px 24px 24px;
-  box-shadow:0 40px 80px -20px rgba(0,0,0,.5);transform:translateY(30px) scale(.96);transition:transform .5s var(--ease-spring);max-height:90vh;overflow:auto}
-.checkout.open .ck-card{transform:none}
-.ck-card h3{font-family:'Fraunces',serif;font-weight:900;font-size:26px;color:#241B10}
-.ck-card h3 em{font-style:italic;font-weight:500}
-.ck-sum{margin:14px 0 6px;padding:12px 14px;background:rgba(36,27,16,.06);border-radius:14px;font:600 12.5px/1.7 'Manrope';color:rgba(36,27,16,.8)}
-.ck-sum b{font-family:'Fraunces',serif;font-weight:900;color:#241B10;font-size:15px}
-.ck-field{margin-top:14px}
-.ck-field label{display:block;font:800 9.5px/1 'Manrope';letter-spacing:.2em;text-transform:uppercase;color:#8a6543;margin-bottom:7px}
-.ck-field input,.ck-field textarea{width:100%;border:1.5px solid rgba(36,27,16,.18);background:#fff;border-radius:12px;padding:12px 14px;font:600 14px/1.4 'Manrope';color:#241B10;outline:none;transition:border .3s}
-.ck-field input:focus,.ck-field textarea:focus{border-color:#8a6543}
-.ck-field textarea{resize:none;height:64px}
-.ck-go{width:100%;margin-top:20px;background:#241B10;color:#FAF5E9;border:0;border-radius:999px;padding:16px;font:800 12px/1 'Manrope';letter-spacing:.16em;text-transform:uppercase;cursor:pointer;transition:transform .3s var(--ease-spring)}
-.ck-go:hover{transform:translateY(-2px)}
-.ck-close{position:absolute;top:14px;right:14px;border:0;background:rgba(36,27,16,.08);width:32px;height:32px;border-radius:50%;font-size:15px;cursor:pointer;color:#241B10}
-/* success state */
-.ck-success{display:none;text-align:center;padding:26px 6px 10px}
-.ck-card.done form,.ck-card.done .ck-sum,.ck-card.done h3{display:none}
-.ck-card.done .ck-success{display:block}
-.ck-mark{width:86px;height:86px;margin:0 auto 18px;border-radius:50%;background:#1E4432;display:flex;align-items:center;justify-content:center;animation:popin .7s var(--ease-spring)}
-@keyframes popin{0%{transform:scale(0)}60%{transform:scale(1.12)}100%{transform:scale(1)}}
-.ck-mark svg{width:40px;height:40px;fill:none;stroke:#FAF5E9;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:60;stroke-dashoffset:60;animation:draw .8s .35s var(--ease-out) forwards}
-@keyframes draw{to{stroke-dashoffset:0}}
-.ck-success h4{font-family:'Fraunces',serif;font-weight:900;font-size:24px;color:#241B10}
-.ck-success h4 em{font-style:italic;font-weight:500}
-.ck-success p{margin-top:10px;font:500 13.5px/1.7 'Manrope';color:rgba(36,27,16,.72)}
-.ck-success .eta{margin-top:14px;display:inline-block;background:rgba(30,68,50,.1);color:#1E4432;border-radius:999px;padding:10px 18px;font:800 11px/1 'Manrope';letter-spacing:.14em;text-transform:uppercase}
-.ck-conf{margin:18px auto 0;width:120px;height:14px;display:flex;gap:6px;justify-content:center}
-.ck-conf i{width:8px;height:8px;border-radius:50%;background:#1E4432;opacity:.25;animation:conf 1.2s ease-in-out infinite}
-.ck-conf i:nth-child(2){animation-delay:.15s}.ck-conf i:nth-child(3){animation-delay:.3s}.ck-conf i:nth-child(4){animation-delay:.45s}.ck-conf i:nth-child(5){animation-delay:.6s}
-@keyframes conf{0%,100%{opacity:.25;transform:translateY(0)}50%{opacity:1;transform:translateY(-6px)}}
-/* scooter ride-by */
-.ck-ride{margin-top:22px;height:40px;position:relative;overflow:hidden;border-radius:12px;background:rgba(30,68,50,.08)}
-.ck-ride span{position:absolute;top:6px;left:-60px;font-size:22px;animation:ride 2.6s .6s ease-in-out infinite}
-@keyframes ride{0%{left:-60px}55%{left:calc(100% - 40px)}100%{left:calc(100% + 60px)}}
-
-/* entrance choreography */
-.drinkwrap.enter .cup{animation:riseup 1.1s var(--ease-out), bob 6s ease-in-out 1.1s infinite}
-@keyframes riseup{0%{transform:translateY(60vh) scale(.5);opacity:0}60%{transform:translateY(-4vh) scale(1.05)}80%{transform:translateY(1vh)}100%{transform:translateY(0) scale(1);opacity:1}}
-.crown.enter{animation:crownburst 1.2s .25s var(--ease-out)}
-@keyframes crownburst{0%{opacity:0;transform:translate(-50%,-46%) scale(.4)}55%{opacity:1;transform:translate(-50%,-55%) scale(1.12)}100%{opacity:1;transform:translate(-50%,-53%) scale(1)}}
-.splashPool.enter{animation:poolrise 1.3s .15s var(--ease-out)}
-@keyframes poolrise{0%{transform:translateX(-50%) translateY(30vh)}100%{transform:translateX(-50%) translateY(0)}}
-.nav.enter{animation:navdrop .8s var(--ease-out)}
-@keyframes navdrop{0%{transform:translateY(-70px);opacity:0}100%{transform:none;opacity:1}}
-.prodcard.enter{animation:cardup .9s .55s var(--ease-out) backwards}
-@keyframes cardup{0%{transform:translateY(60px);opacity:0}100%{transform:none;opacity:1}}
-.ring.enter{animation:ringin 1s .5s var(--ease-spring) backwards}
-@keyframes ringin{0%{transform:translate(-50%,-50%) scale(.3);opacity:0}100%{transform:translate(-50%,-50%) scale(1);opacity:1}}
-.sidechips.enter .schip{animation:chipin .6s var(--ease-out) backwards}
-.sidechips.enter .schip:nth-child(1){animation-delay:.7s}
-.sidechips.enter .schip:nth-child(2){animation-delay:.82s}
-.sidechips.enter .schip:nth-child(3){animation-delay:.94s}
-</style>
+    @media (max-width:760px){
+      .nav{padding:10px 12px 8px;flex-wrap:wrap;gap:8px}
+      .logo{font-size:19px;font-weight:800;white-space:nowrap;flex-shrink:0}
+      .navmid{position:static;transform:none;order:3;flex:0 0 100%;margin:0 auto;padding:5px;gap:2px;justify-content:center;width:max-content}
+      .navmid a{padding:9px 14px;font-size:11px;font-weight:700;white-space:nowrap}
+      .whitepill{padding:11px 16px;font-size:11px;font-weight:800;flex-shrink:0}
+      .icobtn{width:30px;height:30px;flex-shrink:0}
+      .navright{gap:6px}
+      .bigword{font-size:clamp(72px,26vw,150px);top:31%}
+      .drinkwrap{top:48%}
+      .drinkwrap img{height:min(46vh,500px)}
+      .crown{width:clamp(280px,88vw,420px)}
+      .splashPool{height:min(23vh,250px);bottom:-4%}
+      .prodcard{left:10px;right:10px;bottom:70px;max-width:none;padding:9px;gap:9px;border-radius:18px}
+      .stats{flex-direction:row;gap:7px}
+      .stat{padding:7px 10px;min-width:54px}
+      .pthumb{width:48px;height:60px}
+      .pinfo h3{font-size:15px}
+      .pinfo p{font-size:11px;max-width:none}
+      .addbtn{padding:10px 16px;font-size:10.5px}
+      .pinbtn{width:32px;height:32px}
+      .arrows{bottom:18px;right:12px;gap:8px}
+      .arrow{width:42px;height:42px}
+      .dots{bottom:30px;left:50%;right:auto;transform:translateX(-50%)}
+      .count{display:none}
+      .cline{font-size:11.5px;padding:6px 7px 6px 12px}
+    }
+  </style>
 </head>
 <body>
-<script>
-window.addEventListener('error',e=>{try{fetch('/api/uxlog',{method:'POST',body:'MENU-ERR '+e.message})}catch(_){}});
-</script>
-
-<section class="scene" id="scene">
-  <div class="bokeh">
-    <i style="left:6%;top:14%;width:220px;height:220px"></i>
-    <i style="right:8%;top:8%;width:260px;height:260px"></i>
-    <i style="left:38%;top:4%;width:180px;height:180px"></i>
-    <i style="right:30%;bottom:12%;width:240px;height:240px"></i>
-  </div>
-
-  <!-- splash pool (behind everything at the bottom) -->
-  <div class="splashPool"><img class="tint" id="poolImg" src="assets/gen/pool.webp" alt=""></div>
-
-  <!-- giant word stage -->
-  <div class="wordstage" id="wordstage"></div>
-
-  <!-- crown splash + drink -->
-  <div class="crown" id="crownBox"><img class="tint" id="crownImg" src="assets/gen/crown.webp" alt=""></div>
-  <div class="drinkwrap" id="drinkwrap"><img class="cup" id="drinkImg" alt=""></div>
-
-  <!-- floating fruit -->
-  <div class="fruits" id="fruits"></div>
-
-  <!-- nav -->
-  <nav class="nav">
-    <a class="logo" href="/"><span class="dia">✦</span>Le Rêve</a>
-    <div class="navmid">
-      <a href="/" data-nav="home" class="active">Home</a>
-      <a href="/menu.html" data-nav="menu">Our Shakes</a>
-      <a href="#about">About Us</a>
-      <a href="#contact">Contact</a>
+  <section class="scene" id="scene">
+    <div class="bokeh">
+      <i style="left:6%;top:14%;width:220px;height:220px"></i>
+      <i style="right:8%;top:8%;width:260px;height:260px"></i>
+      <i style="left:38%;top:4%;width:180px;height:180px"></i>
+      <i style="right:30%;bottom:12%;width:240px;height:240px"></i>
     </div>
-    <div class="navright">
-      <button class="icobtn" id="searchBtn" aria-label="search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg></button>
-      <a class="icobtn" id="pinTop" aria-label="find us" href="https://www.google.com/maps/search/?api=1&query=Le+R%C3%AAve+Imadi+Shopping+Complex+Malindi"><svg viewBox="0 0 24 24"><path d="M12 21s-7-5.5-7-11a7 7 0 1 1 14 0c0 5.5-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg></a>
-      <button class="whitepill" id="orderPill">Order Now</button>
-    </div>
-  </nav>
-  <div class="srch" id="srch">
-    <div class="sr-bg" id="srBg"></div>
-    <div class="srch-box">
-      <input id="srInput" type="text" placeholder="Search the menu… try \"strawberry\" or \"oreo\"">
-      <div class="srch-res" id="srRes"></div>
-    </div>
-  </div>
 
-  <div class="dots" id="dots"></div>
-  <div class="count" id="count">01 / 11</div>
+    <div class="splashPool"><img class="tint" id="poolImg" src="assets/gen/pool.webp" alt=""></div>
+    <div class="wordstage" id="wordstage"></div>
+    <div class="crown" id="crownBox"><img class="tint" id="crownImg" src="assets/gen/crown.webp" alt=""></div>
+    <div class="drinkwrap" id="drinkwrap"><img class="cup" id="drinkImg" alt=""></div>
 
-  <!-- right flavor chips -->
-  <div class="sidechips" id="sidechips"></div>
+    <nav class="nav">
+      <a class="logo" href="/"><span style="font-size:13px">✦</span>Le Rêve</a>
+      <div class="navmid">
+        <a href="/" class="active">Home</a>
+        <a href="/menu.html">Our Shakes</a>
+        <a href="#about">About Us</a>
+        <a href="#contact">Contact</a>
+      </div>
+      <div class="navright">
+        <button class="icobtn" id="searchBtn" aria-label="search">
+          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+        </button>
+        <button class="whitepill" id="orderPill">Order Now</button>
+      </div>
+    </nav>
 
-  <!-- product card -->
-  <div class="prodcard" id="prodcard">
-    <div class="stats">
-      <div class="stat"><b id="kcal">350</b><span>kcal</span></div>
-      <div class="stat"><b id="ml">250</b><span>ml</span></div>
+    <div class="dots" id="dots"></div>
+    <div class="count" id="count">01 / 11</div>
+
+    <div class="sidechips" id="sidechips"></div>
+
+    <div class="prodcard" id="prodcard">
+      <div class="stats">
+        <div class="stat"><b id="kcal">350</b><span>kcal</span></div>
+        <div class="stat"><b id="ml">250</b><span>ml</span></div>
+      </div>
+      <div class="pthumb"><img id="thumb" alt=""></div>
+      <div class="pinfo">
+        <h3 id="pname">—</h3>
+        <p id="pdesc">—</p>
+        <div class="pact">
+          <button class="addbtn" id="addBtn">Add to Cart</button>
+          <button class="pinbtn" id="pinBtn" aria-label="find us on maps"><svg viewBox="0 0 24 24"><path d="M12 21s-7-5.5-7-11a7 7 0 1 1 14 0c0 5.5-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg></button>
+        </div>
+      </div>
     </div>
-    <div class="pthumb"><img id="thumb" alt=""></div>
-    <div class="pinfo">
-      <h3 id="pname">—</h3>
-      <p id="pdesc">—</p>
-      <div class="pact">
-        <button class="addbtn" id="addBtn">Add to Cart</button>
-        <button class="pinbtn" id="pinBtn" aria-label="find us on maps"><svg viewBox="0 0 24 24"><path d="M12 21s-7-5.5-7-11a7 7 0 1 1 14 0c0 5.5-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg></button>
+
+    <div class="ring">
+      <svg viewBox="0 0 118 118">
+        <g class="rot">
+          <defs><path id="cir" d="M59,59 m-46,0 a46,46 0 1,1 92,0 a46,46 0 1,1 -92,0"/></defs>
+          <text><textPath href="#cir">real fruit · real fruit · real fruit · </textPath></text>
+        </g>
+        <text class="dia" x="59" y="40" text-anchor="middle">✦</text>
+        <text class="pct" x="59" y="66" text-anchor="middle">100%</text>
+      </svg>
+    </div>
+
+    <div class="arrows">
+      <button class="arrow" id="prev" aria-label="previous"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button>
+      <button class="arrow" id="next" aria-label="next"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button>
+    </div>
+  </section>
+
+  <div class="cart" id="cart">
+    <div class="cart-in">
+      <span class="clabel">your order</span>
+      <div class="cart-items" id="cartItems"></div>
+      <div class="cart-row2">
+        <span class="cart-total" id="cartTotal">KES 0</span>
+        <button class="wabtn" id="orderNow">place order</button>
+        <button class="cls" id="cartClose" aria-label="close">✕</button>
       </div>
     </div>
   </div>
 
-  <!-- 100% ring -->
-  <div class="ring">
-    <svg viewBox="0 0 118 118">
-      <g class="rot">
-        <defs><path id="cir" d="M59,59 m-46,0 a46,46 0 1,1 92,0 a46,46 0 1,1 -92,0"/></defs>
-        <text><textPath href="#cir">real fruit · real fruit · real fruit · </textPath></text>
-      </g>
-      <text class="dia" x="59" y="40" text-anchor="middle">✦</text>
-      <text class="pct" x="59" y="66" text-anchor="middle">100%</text>
-    </svg>
-  </div>
+  <div class="toast" id="toast"></div>
 
-  <!-- arrows -->
-  <div class="arrows">
-    <button class="arrow" id="prev" aria-label="previous"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button>
-    <button class="arrow" id="next" aria-label="next"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button>
-  </div>
-</section>
+  <script>
+    const MENU = [
+      {id:'straw', name:'Strawberry Bliss', word:'Strawlicious', desc:'The famous one — berry first, coffee after', price:450, kcal:320, ml:350, img:'assets/straw_cut.webp', chips:['Fresh','Berry','Creamy'], bg1:'#d98a95', bg2:'#b95f6e', bg3:'#9d4a58', splash:'brightness(1.1) saturate(1.2)'} ,
+      {id:'matcha', name:'Kiwi Breeze', word:'Kiwliciously', desc:'Smooth and refreshing with a subtle tangy note', price:450, kcal:280, ml:350, img:'assets/matcha_cut.webp', chips:['Exotic','Tangy','Cool'], bg1:'#a7c88e', bg2:'#6aa06e', bg3:'#4d7f68', splash:'brightness(1.08) saturate(1.15)'} ,
+      {id:'mojito', name:'Grape Velvet', word:'Grapstical', desc:'Juicy grapes blended into a velvety milkshake base', price:480, kcal:340, ml:350, img:'assets/mojito_cut.webp', chips:['Juicy','Velvet','Chilled'], bg1:'#8f87d8', bg2:'#5f5ba9', bg3:'#403f7a', splash:'brightness(1.08) saturate(1.12)'} ,
+      {id:'latte', name:'Iced Latte', word:'Lattelicious', desc:'Creamy coffee over ice, milk swirls', price:350, kcal:210, ml:350, img:'assets/latte_cut.webp', chips:['Creamy','Smooth','Bold'], bg1:'#d7b392', bg2:'#b8795a', bg3:'#8d5b48', splash:'brightness(1.1) saturate(1.05)'} ,
+      {id:'brew', name:'Cold Brew To-Go', word:'Brewtanical', desc:'18 hours of patience, over ice', price:400, kcal:120, ml:350, img:'assets/brew_cut.webp', chips:['Bold','Dark','Cold'], bg1:'#8e7d75', bg2:'#655443', bg3:'#463b34', splash:'brightness(1.04) contrast(1.05)'} ,
+      {id:'caramel', name:'Caramel Frappe', word:'Caramello', desc:'Whipped cloud, golden drizzle', price:480, kcal:390, ml:350, img:'assets/caramel_cut.webp', chips:['Golden','Sweet','Cloudy'], bg1:'#e5c28a', bg2:'#d99c62', bg3:'#b66d48', splash:'brightness(1.12) saturate(1.08)'} ,
+      {id:'espresso', name:'Iced Espresso', word:'Espressoly', desc:'Short, dark, honest', price:300, kcal:90, ml:250, img:'assets/espresso_cut.webp', chips:['Short','Dark','Sharp'], bg1:'#9e7b67', bg2:'#765347', bg3:'#573f35', splash:'brightness(1.05) saturate(1.2)'} ,
+      {id:'oreo', name:'Oreo Milkshake', word:'Oreolicious', desc:'Cookies & cream, crumb rim', price:450, kcal:420, ml:350, img:'assets/oreo_cut.webp', chips:['Cookie','Rich','Creamy'], bg1:'#a58a7d', bg2:'#7b665e', bg3:'#5e4f48', splash:'brightness(1.08) saturate(1.05)'} ,
+      {id:'kitkat', name:'KitKat Shake', word:'Kitkalicious', desc:'Chocolate wafer crown', price:450, kcal:430, ml:350, img:'assets/kitkat_cut.webp', chips:['Chocolate','Crisp','Rich'], bg1:'#b18472', bg2:'#7e5646', bg3:'#5a3d38', splash:'brightness(1.1) saturate(1.08)'} ,
+      {id:'donut', name:'Biscoff Donut', word:'Biscoffal', desc:'The famous one — goes fast', price:250, kcal:380, ml:120, img:'assets/donut_cut.webp', chips:['Spiced','Soft','Classic'], bg1:'#d9ae7e', bg2:'#b77a40', bg3:'#7b4f2d', splash:'brightness(1.1) saturate(1.16)'} ,
+      {id:'cinnamon', name:'Cinnamon Roll', word:'Cinnamon', desc:'Glazed, warm from the case', price:300, kcal:410, ml:150, img:'assets/cinnamon_cut.webp', chips:['Glazed','Warm','Sweet'], bg1:'#d29779', bg2:'#b55f45', bg3:'#8f4139', splash:'brightness(1.12) saturate(1.1)'}
+    ];
 
-<div class="cart" id="cart">
-  <div class="cart-in">
-    <span class="clabel">your order</span>
-    <div class="cart-items" id="cartItems"></div>
-    <div class="cart-row2">
-      <span class="cart-total" id="cartTotal">KES 0</span>
-      <button class="wabtn" id="orderNow">place order</button>
-      <button class="cls" id="cartClose" aria-label="close">✕</button>
-    </div>
-  </div>
-</div>
+    const $ = (s) => document.querySelector(s);
+    const money = (v) => 'KES ' + Math.round(v).toLocaleString('en-KE');
+    let idx = 0, switching = false;
 
-<div class="toast" id="toast"></div>
-<!-- CHECKOUT -->
-<div class="checkout" id="checkout">
-  <div class="ck-bg" id="ckBg"></div>
-  <div class="ck-card" id="ckCard">
-    <button class="ck-close" id="ckClose" aria-label="close">✕</button>
-    <h3>almost <em>yours.</em></h3>
-    <div class="ck-sum" id="ckSum">your cart is empty</div>
-    <form id="ckForm">
-      <div class="ck-field"><label>your name</label><input name="name" required placeholder="e.g. Amina"></div>
-      <div class="ck-field"><label>phone number</label><input name="phone" required type="tel" placeholder="07xx xxx xxx"></div>
-      <div class="ck-field"><label>delivery location</label><textarea name="loc" required placeholder="estate / street, landmark…"></textarea></div>
-      <button class="ck-go" type="submit">place my order</button>
-    </form>
-    <div class="ck-success">
-      <div class="ck-mark"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg></div>
-      <h4>your delivery is<br><em>on its way.</em></h4>
-      <p id="ckDoneMsg">We've got your order — we're making it fresh right now.</p>
-      <span class="eta">arriving in ~30–45 min</span>
-      <div class="ck-conf"><i></i><i></i><i></i><i></i><i></i></div>
-      <div class="ck-ride"><span>🛵</span></div>
-    </div>
-  </div>
-</div>
+    function applyColors(item) {
+      const root = document.documentElement.style;
+      root.setProperty('--bg1', item.bg1);
+      root.setProperty('--bg2', item.bg2);
+      root.setProperty('--bg3', item.bg3);
+      root.setProperty('--splash', item.splash);
+      document.querySelectorAll('.tint').forEach((el) => {
+        el.style.filter = item.splash + ' drop-shadow(0 10px 30px rgba(0,0,0,.18))';
+      });
+    }
 
+    function showWord(word) {
+      const stage = $('#wordstage');
+      stage.querySelectorAll('.bigword').forEach((w) => {
+        w.classList.remove('word-in');
+        void w.offsetWidth;
+        w.classList.add('word-out');
+        setTimeout(() => w.remove(), 850);
+      });
+      const el = document.createElement('h1');
+      el.className = 'bigword word-in';
+      el.textContent = word;
+      stage.appendChild(el);
+    }
 
-<script>
-/* word, chips, colors, kcal/ml, fruit set per flavor — modeled on the reference video */
-const MENU = [
- {id:'straw',    name:'Strawberry Bliss',      word:'Strawlicious',   desc:'The famous one — berry first, coffee after', price:450, kcal:320, ml:350, img:'assets/straw_cut.webp',    chips:['Fresh','Sweet','Irresistible'], fruit:'straw', c:{bg1:'#e0959f',bg2:'#c06674',bg3:'#9c4a58',splash:'hue-rotate(0deg) saturate(1)'}},
- {id:'matcha',   name:'Kiwi Breeze',           word:'Kiwliciously',   desc:'Smooth and refreshing with a subtle tangy note', price:450, kcal:280, ml:350, img:'assets/matcha_cut.webp',  chips:['Exotic','Tangy','Smooth'],      fruit:'kiwi',  c:{bg1:'#b7bd6e',bg2:'#8d974a',bg3:'#66702f',splash:'hue-rotate(95deg) saturate(.75)'}},
- {id:'mojito',   name:'Grape Velvet',          word:'Grapstical',     desc:'Juicy grapes blended into a velvety milkshake base', price:480, kcal:340, ml:350, img:'assets/mojito_cut.webp',  chips:['Bold','Juicy','Vibrant'],       fruit:'blue', c:{bg1:'#c78fd0',bg2:'#a25fb4',bg3:'#7a3d8c',splash:'hue-rotate(250deg) saturate(.9)'}},
- {id:'latte',    name:'Iced Latte',            word:'Lattelicious',  desc:'Creamy coffee over ice, milk swirls',        price:350, kcal:210, ml:350, img:'assets/latte_cut.webp',    chips:['Creamy','Smooth','Iced'],      fruit:'coffee', c:{bg1:'#dcb590',bg2:'#b98a5e',bg3:'#8f6440',splash:'hue-rotate(18deg) saturate(.55)'}},
- {id:'brew',     name:'Cold Brew To-Go',       word:'Brewtanical',    desc:'18 hours of patience, over ice',             price:400, kcal:120, ml:350, img:'assets/brew_cut.webp',     chips:['Bold','Dark','Iced'],          fruit:'coffee', c:{bg1:'#b08d6e',bg2:'#7d5c40',bg3:'#54391f',splash:'hue-rotate(15deg) saturate(.5) brightness(.85)'}},
- {id:'caramel',  name:'Caramel Frappe',        word:'Caramello',      desc:'Whipped cloud, golden drizzle',              price:480, kcal:390, ml:350, img:'assets/caramel_cut.webp', chips:['Golden','Sweet','Whipped'],    fruit:'orange', c:{bg1:'#e3bb84',bg2:'#c08d4e',bg3:'#8f6128',splash:'hue-rotate(12deg) saturate(.9)'}},
- {id:'espresso', name:'Iced Espresso',         word:'Espressoly',     desc:'Short, dark, honest',                        price:300, kcal:90,  ml:250, img:'assets/espresso_cut.webp',chips:['Short','Dark','Honest'],       fruit:'coffee', c:{bg1:'#c19a80',bg2:'#8a6146',bg3:'#5c3d28',splash:'hue-rotate(14deg) saturate(.45) brightness(.8)'}},
- {id:'oreo',     name:'Oreo Milkshake',        word:'Oreolicious',    desc:'Cookies & cream, crumb rim',                 price:450, kcal:420, ml:350, img:'assets/oreo_cut.webp',    chips:['Cookies','Cream','Cold'],      fruit:'cookie', c:{bg1:'#c9c4cd',bg2:'#8f8798',bg3:'#5f5768',splash:'saturate(.12) brightness(1.05)'}},
- {id:'kitkat',   name:'KitKat Shake',          word:'Kitkalicious',   desc:'Chocolate wafer crown',                      price:450, kcal:430, ml:350, img:'assets/kitkat_cut.webp',  chips:['Chocolate','Crispy','Cold'],   fruit:'cookie', c:{bg1:'#d3a273',bg2:'#a5713f',bg3:'#714722',splash:'hue-rotate(20deg) saturate(.7)'}},
- {id:'donut',    name:'Biscoff Donut',         word:'Biscoffal',      desc:'The famous one — goes fast',                 price:250, kcal:380, ml:120, img:'assets/donut_cut.webp',   chips:['Spiced','Sweet','Warm'],       fruit:'orange', c:{bg1:'#dfb58a',bg2:'#b57f4e',bg3:'#845426',splash:'hue-rotate(16deg) saturate(.8)'}},
- {id:'cinnamon', name:'Cinnamon Roll',         word:'Cinnamon',       desc:'Glazed, warm from the case',                 price:300, kcal:410, ml:150, img:'assets/cinnamon_cut.webp',chips:['Glazed','Warm','Cozy'],        fruit:'orange', c:{bg1:'#d9a983',bg2:'#ab7350',bg3:'#7a4c2e',splash:'hue-rotate(18deg) saturate(.7)'}},
-];
-const FRUIT = {straw:'assets/gen/straw.webp', berry:'assets/gen/berry.webp', kiwi:'assets/gen/kiwi.webp', blue:'assets/gen/blue.webp', coffee:'assets/gen/coffee.webp', orange:'assets/gen/orange.webp', cookie:'assets/gen/cookie.webp'};
-const WA = '254794053291';
-const $ = s => document.querySelector(s);
-const money = v => 'KES '+Math.round(v).toLocaleString('en-KE');
-MENU.forEach((m,i)=>{ const d=document.createElement('button'); d.className='dot'; d.setAttribute('aria-label',m.name); d.addEventListener('click',()=>go(i)); $('#dots').appendChild(d); });
-$('#count').textContent = '01 / '+String(MENU.length).padStart(2,'0');
+    function showChips(chips) {
+      const box = $('#sidechips');
+      box.innerHTML = '';
+      chips.forEach((c, i) => {
+        const s = document.createElement('span');
+        s.className = 'schip';
+        s.textContent = c;
+        s.style.animationDelay = (0.25 + i * 0.12) + 's';
+        s.classList.add('on');
+        box.appendChild(s);
+      });
+    }
 
-let idx = 0, switching = false;
+    function showCard(item, animate) {
+      const card = $('#prodcard');
+      $('#kcal').textContent = item.kcal;
+      $('#ml').textContent = item.ml;
+      $('#thumb').src = item.img;
+      $('#thumb').alt = item.name;
+      $('#pname').textContent = item.name;
+      $('#pdesc').textContent = item.desc;
+      if (!animate) return;
+      card.style.transition = 'transform .35s ease, opacity .35s ease';
+      card.style.transform = 'translateX(-15px)';
+      card.style.opacity = '0';
+      setTimeout(() => {
+        card.style.transform = 'translateX(0)';
+        card.style.opacity = '1';
+      }, 180);
+    }
 
-function applyColors(c){
-  const r = document.documentElement.style;
-  r.setProperty('--bg1', c.bg1); r.setProperty('--bg2', c.bg2); r.setProperty('--bg3', c.bg3);
-  document.querySelectorAll('.tint').forEach(el=>el.style.filter = c.splash + ' drop-shadow(0 10px 30px rgba(0,0,0,.18))');
-}
+    function go(i) {
+      if (switching) return;
+      switching = true;
+      idx = (i + MENU.length) % MENU.length;
+      const item = MENU[idx];
 
-function scatterFruit(kind){
-  const box = $('#fruits'); box.innerHTML='';
-  const src = FRUIT[kind];
-  const spots = [
-    {x:7,y:16,s:1.25,dof:false},{x:16,y:66,s:1.5,dof:false},{x:28,y:26,s:.9,dof:true},
-    {x:69,y:18,s:1.1,dof:true},{x:81,y:52,s:1.6,dof:false},{x:90,y:24,s:1.0,dof:true},
-    {x:60,y:74,s:1.3,dof:false},{x:10,y:40,s:.75,dof:true},{x:88,y:74,s:1.1,dof:false},
-    {x:36,y:12,s:.8,dof:true},
-  ];
-  spots.forEach((p,i)=>{
-    const im = document.createElement('img'); im.src = src;
-    im.style.left = p.x+'%'; im.style.top = p.y+'%';
-    im.style.height = (9 + p.s*11)+'vmin';
-    im.style.setProperty('--r0', (i%2? -18:14)+'deg');
-    im.style.setProperty('--r1', (i%2? 16:-16)+'deg');
-    im.style.animationDelay = (i*0.22)+'s';
-    im.className = 'on' + (p.dof?' dof':'');
-    box.appendChild(im);
-  });
-}
+      applyColors(item);
+      showWord(item.word);
+      showChips(item.chips);
+      showCard(item, true);
 
-function showWord(word){
-  const stage = $('#wordstage');
-  // every word currently on stage slides out and is removed — no stragglers
-  stage.querySelectorAll('.bigword').forEach(w=>{
-    w.classList.remove('word-in'); void w.offsetWidth; w.classList.add('word-out');
-    setTimeout(()=>w.remove(), 850);
-  });
-  const el = document.createElement('h1');
-  el.className = 'bigword word-in';
-  el.textContent = word;
-  stage.appendChild(el);
-}
+      const dw = $('#drinkwrap');
+      const img = $('#drinkImg');
+      img.src = item.img;
+      img.alt = item.name;
+      dw.classList.remove('pop');
+      void dw.offsetWidth;
+      dw.classList.add('pop');
 
-function showChips(chips){
-  const box = $('#sidechips'); box.innerHTML='';
-  chips.forEach((c,i)=>{
-    const s = document.createElement('span'); s.className='schip'; s.textContent=c;
-    s.style.animationDelay = (0.25 + i*0.12)+'s';
-    s.classList.add('on');
-    box.appendChild(s);
-  });
-}
+      const cb = $('#crownBox');
+      cb.classList.remove('pop2');
+      void cb.offsetWidth;
+      cb.classList.add('pop2');
 
-function showCard(m, animate){
-  const card = $('#prodcard');
-  const fill = ()=>{
-    $('#kcal').textContent = m.kcal; $('#ml').textContent = m.ml;
-    $('#thumb').src = m.img; $('#thumb').alt = m.name;
-    $('#pname').textContent = m.name; $('#pdesc').textContent = m.desc;
-  };
-  if(!animate){ fill(); return; }
-  card.classList.remove('slide-in'); card.classList.add('slide-out');
-  setTimeout(()=>{ fill(); card.classList.remove('slide-out'); card.classList.add('slide-in');
-    setTimeout(()=>card.classList.remove('slide-in'), 650); }, 380);
-}
+      const pool = document.querySelector('.splashPool');
+      pool.classList.remove('splash-now');
+      void pool.offsetWidth;
+      pool.classList.add('splash-now');
 
-function go(i){
-  if(switching) return;
-  switching = true;
-  idx = (i + MENU.length) % MENU.length;
-  const m = MENU[idx];
+      $('#count').textContent = String(idx + 1).padStart(2, '0') + ' / ' + String(MENU.length).padStart(2, '0');
+      document.querySelectorAll('.dot').forEach((d, j) => d.classList.toggle('on', j === idx));
+      setTimeout(() => switching = false, 480);
+    }
 
-  applyColors(m.c);
-  showWord(m.word);
-  scatterFruit(m.fruit);
-  showChips(m.chips);
-  showCard(m, true);
-
-  const dw = $('#drinkwrap'), img = $('#drinkImg');
-  img.src = m.img; img.alt = m.name;
-  dw.classList.remove('pop'); void dw.offsetWidth; dw.classList.add('pop');
-  const cb=$('#crownBox'); cb.classList.remove('pop2'); void cb.offsetWidth; cb.classList.add('pop2');
-
-  $('#count').textContent = String(idx+1).padStart(2,'0')+' / '+String(MENU.length).padStart(2,'0');
-  document.querySelectorAll('.dot').forEach((d,j)=>d.classList.toggle('on', j===idx));
-  setTimeout(()=>switching=false, 480);
-}
-
-$('#next').addEventListener('click',()=>go(idx+1));
-$('#prev').addEventListener('click',()=>go(idx-1));
-addEventListener('keydown',e=>{ if(e.key==='ArrowRight') go(idx+1); if(e.key==='ArrowLeft') go(idx-1); });
-
-const EMBED = false;
-if(!EMBED) addEventListener('wheel',e=>{ if(Math.abs(e.deltaY)<18) return; if(e.deltaY>0) go(idx+1); else go(idx-1); },{passive:true});
-
-/* swipe */
-let tx0=null;
-addEventListener('touchstart',e=>tx0=e.touches[0].clientX,{passive:true});
-addEventListener('touchend',e=>{ if(tx0===null)return; const dx=e.changedTouches[0].clientX-tx0; if(Math.abs(dx)>60) go(idx + (dx<0?1:-1)); tx0=null; });
-
-/* ---- cart ---- */
-const cart = {};
-const toast = $('#toast');
-function showToast(t){ toast.textContent=t; toast.classList.add('on'); clearTimeout(showToast.t); showToast.t=setTimeout(()=>toast.classList.remove('on'),1600); }
-function render(){
-  const box=$('#cartItems'); box.innerHTML='';
-  let total=0, count=0;
-  Object.entries(cart).forEach(([id,qty])=>{
-    const m=MENU.find(x=>x.id===id); if(!m) return;
-    total += m.price*qty; count += qty;
-    const c=document.createElement('div'); c.className='cline';
-    c.innerHTML=`<b>${qty}×</b> ${m.name} <span style="opacity:.6">${money(m.price*qty)}</span><button class="x" data-id="${id}" aria-label="remove">✕</button>`;
-    box.appendChild(c);
-  });
-  $('#cartTotal').textContent = money(total);
-  $('#cart').classList.toggle('open', count>0);
-}
-$('#addBtn').addEventListener('click',()=>{ const m=MENU[idx]; cart[m.id]=(cart[m.id]||0)+1; render(); showToast('added · '+m.name); });
-document.addEventListener('click',e=>{ const x=e.target.closest('.cline .x'); if(x){ delete cart[x.dataset.id]; render(); } });
-const checkout=$('#checkout'), ckCard=$('#ckCard');
-function order(){
-  const ids=Object.entries(cart).filter(([,q])=>q>0);
-  if(!ids.length){ showToast('add something first \u2728'); return; }
-  let total=0, lines=[];
-  ids.forEach(([id,q])=>{ const m=MENU.find(x=>x.id===id); total+=m.price*q; lines.push(`${q}\u00d7 ${m.name} — ${money(m.price*q)}`); });
-  $('#ckSum').innerHTML = lines.join('<br>') + '<br><b>Total: '+money(total)+'</b>';
-  checkout.classList.add('open');
-  ckCard.classList.remove('done');
-}
-function closeCheckout(){ checkout.classList.remove('open'); }
-$('#ckClose').addEventListener('click',closeCheckout);
-$('#ckBg').addEventListener('click',closeCheckout);
-$('#ckForm').addEventListener('submit',e=>{
-  e.preventDefault();
-  const f=new FormData(e.target);
-  const name=f.get('name'), phone=f.get('phone'), loc=f.get('loc');
-  const ids=Object.entries(cart).filter(([,q])=>q>0);
-  let total=0, lines=[];
-  ids.forEach(([id,q])=>{ const m=MENU.find(x=>x.id===id); total+=m.price*q; lines.push(`\u2022 ${q}\u00d7 ${m.name} — ${money(m.price*q)}`); });
-  // order is stored locally and confirmed — cafe receives it from the form data
-  try{
-    const orders = JSON.parse(localStorage.getItem('lereve_orders')||'[]');
-    orders.push({at:new Date().toISOString(), name, phone, loc, items:lines, total});
-    localStorage.setItem('lereve_orders', JSON.stringify(orders));
-  }catch(_){}
-  $('#ckDoneMsg').textContent = `Thanks ${name}! We've got your order — we're making it fresh right now.`;
-  ckCard.classList.add('done');
-  Object.keys(cart).forEach(k=>delete cart[k]); render();
-});
-$('#orderNow').addEventListener('click',order);$('#orderNow').addEventListener('click',order);
-$('#orderPill').addEventListener('click',order);
-$('#cartClose').addEventListener('click',()=>$('#cart').classList.remove('open'));
-
-
-
-const srch=$('#srch'), srInput=$('#srInput'), srRes=$('#srRes');
-function renderSearch(q){
-  q=q.trim().toLowerCase();
-  const hits = MENU.filter(m=>!q || m.name.toLowerCase().includes(q) || m.desc.toLowerCase().includes(q) || m.chips.join(' ').toLowerCase().includes(q));
-  srRes.innerHTML = hits.length ? '' : '<div class="srch-empty">nothing on the menu matches that — try \"matcha\" or \"shake\"</div>';
-  hits.slice(0,8).forEach(m=>{
-    const d=document.createElement('div'); d.className='srch-item';
-    d.innerHTML=`<img src="${m.img}" alt=""><div><b>${m.name}</b><span>${m.desc}</span></div><span class="pr">${money(m.price)}</span>`;
-    d.addEventListener('click',()=>{
-      closeSearch();
-      const i=MENU.indexOf(m);
-      if(document.querySelector('#scene')) go(i);           // landing: carousel jumps
-      else location.href='/';                                // elsewhere: go home to it
-      setTimeout(()=>{ document.querySelector('#scene')?.scrollIntoView({block:'start'}); },80);
+    MENU.forEach((item, i) => {
+      const d = document.createElement('button');
+      d.className = 'dot';
+      d.setAttribute('aria-label', item.name);
+      d.addEventListener('click', () => go(i));
+      $('#dots').appendChild(d);
     });
-    srRes.appendChild(d);
-  });
-}
-function openSearch(){ srch.classList.add('open'); renderSearch(''); setTimeout(()=>srInput.focus(),80); }
-function closeSearch(){ srch.classList.remove('open'); }
-$('#searchBtn').addEventListener('click',openSearch);
-$('#srBg').addEventListener('click',closeSearch);
-srInput.addEventListener('input',()=>renderSearch(srInput.value));
-addEventListener('keydown',e=>{ if(e.key==='Escape') closeSearch(); });
+    $('#count').textContent = '01 / ' + String(MENU.length).padStart(2, '0');
 
-/* preload every drink + fruit image so transitions never show the old one */
-MENU.forEach(m=>{ const i=new Image(); i.src=m.img; });
-Object.values(FRUIT).forEach(u=>{ const i=new Image(); i.src=u; });
+    $('#next').addEventListener('click', () => go(idx + 1));
+    $('#prev').addEventListener('click', () => go(idx - 1));
+    addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight') go(idx + 1);
+      if (e.key === 'ArrowLeft') go(idx - 1);
+    });
 
-/* entrance choreography on first paint */
-function entrance(){
-  const dw=$('#drinkwrap'); dw.classList.add('enter');
-  $('#crownBox').classList.add('enter');
-  document.querySelector('.splashPool').classList.add('enter');
-  document.querySelector('.nav').classList.add('enter');
-  $('#prodcard').classList.add('enter');
-  document.querySelector('.ring').classList.add('enter');
-  document.querySelector('.sidechips').classList.add('enter');
-}
-if(document.readyState==='complete') entrance(); else addEventListener('load',entrance);
-setTimeout(entrance, 600); /* safety net: never wait on a slow asset */
+    const cart = {};
+    const toast = $('#toast');
+    function showToast(t){ toast.textContent=t; toast.classList.add('on'); clearTimeout(showToast.t); showToast.t=setTimeout(()=>toast.classList.remove('on'),1600); }
+    function render(){
+      const box=$('#cartItems'); box.innerHTML=''; let total=0, count=0;
+      Object.entries(cart).forEach(([id,qty])=>{
+        const item = MENU.find(x => x.id === id); if(!item) return;
+        total += item.price * qty; count += qty;
+        const c = document.createElement('div'); c.className='cline';
+        c.innerHTML = `<b>${qty}×</b> ${item.name} <span style="opacity:.6">${money(item.price * qty)}</span><button class="x" data-id="${id}" aria-label="remove">✕</button>`;
+        box.appendChild(c);
+      });
+      $('#cartTotal').textContent = money(total);
+      $('#cart').classList.toggle('open', count > 0);
+    }
 
-/* init */
-const first = MENU[0];
-applyColors(first.c);
-showWord(first.word);
-scatterFruit(first.fruit);
-showChips(first.chips);
-showCard(first, false);
-$('#drinkImg').src = first.img;
-</script>
+    $('#addBtn').addEventListener('click', () => {
+      const item = MENU[idx];
+      cart[item.id] = (cart[item.id] || 0) + 1;
+      render();
+      showToast('added · ' + item.name);
+    });
 
-<style>
-/* ============ about & contact (editorial, from the previous homepage) ============ */
-.abt{position:relative;z-index:10;background:#FAF5E9;color:#241B10;padding:clamp(70px,10vh,120px) clamp(20px,6vw,90px)}
-.abt .kicker{font:700 10px/1 'Manrope';letter-spacing:.3em;text-transform:uppercase;color:#8a6543}
-.abt h2{margin-top:14px;font-family:'Fraunces',serif;font-weight:900;font-size:clamp(40px,6.5vw,84px);line-height:1.02;letter-spacing:-.01em}
-.abt h2 em{font-style:italic;font-weight:500}
-.abt .lede{margin-top:18px;max-width:560px;font-size:15px;line-height:1.75;color:rgba(36,27,16,.72)}
-.abt-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(24px,4vw,60px);margin-top:clamp(36px,6vh,64px);align-items:start}
-.abt-copy p{font-size:14.5px;line-height:1.8;color:rgba(36,27,16,.78);margin-bottom:16px;max-width:480px}
-.abt-facts{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
-.fact{background:#fff;border:1px solid rgba(36,27,16,.12);border-radius:999px;padding:10px 16px;font:700 11px/1 'Manrope';letter-spacing:.08em;text-transform:uppercase;color:#3A2430}
-.collage{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.collage img{width:100%;height:100%;object-fit:cover;border-radius:18px;display:block;box-shadow:0 22px 44px -18px rgba(36,27,16,.35)}
-.collage .c1{height:clamp(220px,34vh,340px)}
-.collage .c2{height:clamp(150px,24vh,240px)}
-.collage .c3{grid-column:1/-1;height:clamp(180px,30vh,300px)}
-@media(max-width:820px){.abt-grid{grid-template-columns:1fr}}
+    document.addEventListener('click', (e) => {
+      const x = e.target.closest('.cline .x');
+      if (x) {
+        delete cart[x.dataset.id];
+        render();
+      }
+    });
 
-/* reels (tiktok) */
-.reels{position:relative;z-index:10;background:#FAF5E9;padding:20px clamp(20px,6vw,90px) clamp(70px,10vh,110px);color:#241B10}
-.reels .kicker{font:700 10px/1 'Manrope';letter-spacing:.3em;text-transform:uppercase;color:#8a6543}
-.reels h2{margin-top:14px;font-family:'Fraunces',serif;font-weight:900;font-size:clamp(36px,5.5vw,70px)}
-.reels h2 em{font-style:italic;font-weight:500}
-.reel-row{display:flex;gap:clamp(16px,3vw,36px);margin-top:34px;flex-wrap:wrap}
-.reel{flex:1 1 280px;max-width:340px;margin:0;transform:rotate(var(--tilt,0deg))}
-.rframe{position:relative;border-radius:20px;overflow:hidden;background:#2A2014;aspect-ratio:9/16;box-shadow:0 24px 48px -20px rgba(36,27,16,.45)}
-.rframe iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
-.reel-fallback{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;color:#FAF5E9;font:600 12px/1.5 'Manrope';text-decoration:none;background:linear-gradient(160deg,#1E4432,#16341F)}
-.reel-fallback b{font:800 12px/1 'Manrope';letter-spacing:.1em;text-transform:uppercase;border:1.5px solid rgba(250,245,233,.5);border-radius:999px;padding:10px 18px}
-.reel figcaption{margin-top:12px;font:500 12.5px/1.6 'Manrope';color:rgba(36,27,16,.72)}
-.reel figcaption b{display:block;font:800 10px/1 'Manrope';letter-spacing:.18em;text-transform:uppercase;color:#8a6543;margin-bottom:5px}
+    function order(){
+      const ids = Object.entries(cart).filter(([, q]) => q > 0);
+      if (!ids.length) {
+        showToast('add something first ✨');
+        return;
+      }
+      let total = 0;
+      const lines = [];
+      ids.forEach(([id, q]) => {
+        const item = MENU.find(x => x.id === id);
+        total += item.price * q;
+        lines.push(`${q}× ${item.name} — ${money(item.price * q)}`);
+      });
+      const text = `Hello Le Rêve Café! I'd like to order:\n\n${lines.join('\n')}\n\nTotal: ${money(total)}`;
+      window.open(`https://wa.me/254794053291?text=${encodeURIComponent(text)}`, '_blank');
+    }
 
-/* contact */
-.contact{position:relative;z-index:10;background:#16341F;color:#FAF5E9;padding:clamp(70px,10vh,120px) clamp(20px,6vw,90px)}
-.contact .kicker{font:700 10px/1 'Manrope';letter-spacing:.3em;text-transform:uppercase;color:#CAA872}
-.contact h2{margin-top:14px;font-family:'Fraunces',serif;font-weight:900;font-size:clamp(38px,6vw,80px);line-height:1.04}
-.contact h2 em{font-style:italic;font-weight:500}
-.c-rows{margin-top:clamp(30px,5vh,52px);display:flex;flex-direction:column;max-width:760px}
-.c-row{display:flex;justify-content:space-between;align-items:center;gap:20px;padding:20px 0;border-bottom:1px solid rgba(250,245,233,.14);font:500 14px/1.5 'Manrope'}
-.c-row .k{font:800 10px/1 'Manrope';letter-spacing:.22em;text-transform:uppercase;color:rgba(250,245,233,.55)}
-.c-row .v{font-size:16px;text-align:right}
-.c-row a.v{color:#CAA872;text-decoration:none}
-.c-row a.v:hover{text-decoration:underline}
-.cta-wa{display:inline-flex;align-items:center;gap:10px;margin-top:34px;background:#CAA872;color:#241B10;border-radius:999px;padding:16px 26px;font:800 12px/1 'Manrope';letter-spacing:.14em;text-transform:uppercase;text-decoration:none;transition:transform .35s cubic-bezier(.34,1.56,.64,1)}
-.cta-wa:hover{transform:translateY(-3px)}
-.foot2{background:#16341F;color:rgba(250,245,233,.55);padding:26px clamp(20px,6vw,90px) 40px;border-top:1px solid rgba(250,245,233,.12);display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;font:600 10px/1.8 'Manrope';letter-spacing:.18em;text-transform:uppercase}
-.foot2 a{color:#CAA872}
-html{scroll-behavior:smooth}
-</style>
+    $('#orderNow').addEventListener('click', order);
+    $('#orderPill').addEventListener('click', order);
+    $('#cartClose').addEventListener('click', () => $('#cart').classList.remove('open'));
 
-<!-- ABOUT -->
-<section class="abt" id="about">
-  <div class="kicker">about us</div>
-  <h2>a little cafe with<br><em>big</em> dreams.</h2>
-  <p class="lede">Le Rêve is a specialty cafe in Malindi serving layered iced lattes, thick milkshakes and fresh bakes — the kind of place built for slow mornings and golden-hour photos.</p>
-  <div class="abt-grid">
-    <div class="abt-copy">
-      <p>Everything on the menu is made to order — from our famous Iced Strawberry Latte to the Biscoff Donut that never survives the afternoon. We pour slow, we plate pretty, and we keep the case changing daily.</p>
-      <p>You'll find us at Imadi Shopping Complex, open every day from 11am. Order to go on WhatsApp and we'll have it ready by the time you arrive, or come sit with us and watch the coast go by.</p>
-      <div class="abt-facts">
-        <span class="fact">✦ est. malindi</span>
-        <span class="fact">✦ made to order</span>
-        <span class="fact">✦ daily pastry case</span>
-        <span class="fact">✦ order on whatsapp</span>
-      </div>
-    </div>
-    <div class="collage">
-      <img class="c1" src="assets/interior.jpg" alt="Inside Le Rêve Cafe">
-      <img class="c2" src="assets/seat.jpg" alt="Seating at Le Rêve">
-      <img class="c3" src="assets/table.jpg" alt="Drinks on the table at Le Rêve">
-    </div>
-  </div>
-</section>
-
-<!-- TIKTOK VIDEOS -->
-<section class="reels" id="reels">
-  <div class="kicker">on camera</div>
-  <h2>watch the <em>dream.</em></h2>
-  <div class="reel-row">
-    <figure class="reel" style="--tilt:-2.5deg">
-      <div class="rframe" data-video-frame>
-        <a class="reel-fallback" href="https://www.tiktok.com/video/7704417290644753672" target="_blank" rel="noopener noreferrer"><span>Opening the cafe video…</span><b>Watch on TikTok ↗</b></a>
-        <iframe data-src="https://www.tiktok.com/player/v1/7704417290644753672?music_info=1&description=1" title="Le Rêve Café taste test video" loading="lazy" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
-      </div>
-      <figcaption><b>taste test · 01</b>"two of our most ordered drinks — the kitkat shake and the caramel matcha." <a href="https://www.tiktok.com/video/7704417290644753672" target="_blank" rel="noopener noreferrer">Open on TikTok ↗</a></figcaption>
-    </figure>
-    <figure class="reel" style="--tilt:2deg">
-      <div class="rframe" data-video-frame>
-        <a class="reel-fallback" href="https://www.tiktok.com/video/7704000090515524882" target="_blank" rel="noopener noreferrer"><span>Opening the cafe video…</span><b>Watch on TikTok ↗</b></a>
-        <iframe data-src="https://www.tiktok.com/player/v1/7704000090515524882?music_info=1&description=1" title="Le Rêve Café your drink is waiting video" loading="lazy" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
-      </div>
-      <figcaption><b>your drink is waiting · 02</b>"your drink is waiting... only at Le Rêve." <a href="https://www.tiktok.com/video/7704000090515524882" target="_blank" rel="noopener noreferrer">Open on TikTok ↗</a></figcaption>
-    </figure>
-  </div>
-</section>
-
-<!-- CONTACT -->
-<section class="contact" id="contact">
-  <div class="kicker">contact</div>
-  <h2>come dream<br>with <em>us.</em></h2>
-  <div class="c-rows">
-    <div class="c-row"><span class="k">where</span><span class="v">Imadi Shopping Complex, Malindi, Kenya</span></div>
-    <div class="c-row"><span class="k">when</span><span class="v">daily, from 11am</span></div>
-    <div class="c-row"><span class="k">call / whatsapp</span><a class="v" href="tel:+254794053291">0794 053 291</a></div>
-    <div class="c-row"><span class="k">instagram</span><a class="v" href="https://www.instagram.com/lereve.ke/" target="_blank" rel="noopener">@lereve.ke</a></div>
-  </div>
-  <a class="cta-wa" href="https://wa.me/254794053291" target="_blank" rel="noopener">order on whatsapp →</a>
-</section>
-
-<footer class="foot2">
-  <span>Le Rêve · Malindi, Kenya</span>
-  <a href="https://www.instagram.com/lereve.ke/" target="_blank" rel="noopener">@lereve.ke</a>
-  <span>daily from 11am</span>
-</footer>
-
-<script>
-/* lazy-load TikTok iframes when they scroll into view */
-const vio = new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){ const f=e.target.querySelector('iframe[data-src]'); if(f){ f.src=f.dataset.src; f.removeAttribute('data-src'); } vio.unobserve(e.target); } }),{rootMargin:'200px'});
-document.querySelectorAll('[data-video-frame]').forEach(el=>vio.observe(el));
-</script>
-
+    const first = MENU[0];
+    applyColors(first);
+    showWord(first.word);
+    showChips(first.chips);
+    showCard(first, false);
+    $('#drinkImg').src = first.img;
+  </script>
 </body>
 </html>
