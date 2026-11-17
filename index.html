@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Le Rêve — Cafe Malindi</title>
 <link rel="icon" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="14" fill="%232A2014"/><path d="M16 50 L16 28 A16 16 0 0 1 48 28 L48 50 Z" fill="%23CAA872"/></svg>'>
+<link rel="preload" as="image" href="assets/gen/pool.webp" fetchpriority="high">
+<link rel="preload" as="image" href="assets/gen/crown.webp" fetchpriority="high">
+<link rel="preload" as="image" href="assets/straw_cut.webp" fetchpriority="high">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -337,13 +340,13 @@ window.addEventListener('error',e=>{try{fetch('/api/uxlog',{method:'POST',body:'
   </div>
 
   <!-- splash pool (behind everything at the bottom) -->
-  <div class="splashPool"><img class="tint" id="poolImg" src="assets/gen/pool.png" alt=""></div>
+  <div class="splashPool"><img class="tint" id="poolImg" src="assets/gen/pool.webp" alt=""></div>
 
   <!-- giant word stage -->
   <div class="wordstage" id="wordstage"></div>
 
   <!-- crown splash + drink -->
-  <div class="crown" id="crownBox"><img class="tint" id="crownImg" src="assets/gen/crown.png" alt=""></div>
+  <div class="crown" id="crownBox"><img class="tint" id="crownImg" src="assets/gen/crown.webp" alt=""></div>
   <div class="drinkwrap" id="drinkwrap"><img class="cup" id="drinkImg" alt=""></div>
 
   <!-- floating fruit -->
@@ -455,19 +458,19 @@ window.addEventListener('error',e=>{try{fetch('/api/uxlog',{method:'POST',body:'
 <script>
 /* word, chips, colors, kcal/ml, fruit set per flavor — modeled on the reference video */
 const MENU = [
- {id:'straw',    name:'Strawberry Bliss',      word:'Strawlicious',   desc:'The famous one — berry first, coffee after', price:450, kcal:320, ml:350, img:'assets/straw_cut.png',    chips:['Fresh','Sweet','Irresistible'], fruit:'straw', c:{bg1:'#e0959f',bg2:'#c06674',bg3:'#9c4a58',splash:'hue-rotate(0deg) saturate(1)'}},
- {id:'matcha',   name:'Kiwi Breeze',           word:'Kiwliciously',   desc:'Smooth and refreshing with a subtle tangy note', price:450, kcal:280, ml:350, img:'assets/matcha_cut.png',  chips:['Exotic','Tangy','Smooth'],      fruit:'kiwi',  c:{bg1:'#b7bd6e',bg2:'#8d974a',bg3:'#66702f',splash:'hue-rotate(95deg) saturate(.75)'}},
- {id:'mojito',   name:'Grape Velvet',          word:'Grapstical',     desc:'Juicy grapes blended into a velvety milkshake base', price:480, kcal:340, ml:350, img:'assets/mojito_cut.png',  chips:['Bold','Juicy','Vibrant'],       fruit:'blue', c:{bg1:'#c78fd0',bg2:'#a25fb4',bg3:'#7a3d8c',splash:'hue-rotate(250deg) saturate(.9)'}},
- {id:'latte',    name:'Iced Latte',            word:'Lattelicious',  desc:'Creamy coffee over ice, milk swirls',        price:350, kcal:210, ml:350, img:'assets/latte_cut.png',    chips:['Creamy','Smooth','Iced'],      fruit:'coffee', c:{bg1:'#dcb590',bg2:'#b98a5e',bg3:'#8f6440',splash:'hue-rotate(18deg) saturate(.55)'}},
- {id:'brew',     name:'Cold Brew To-Go',       word:'Brewtanical',    desc:'18 hours of patience, over ice',             price:400, kcal:120, ml:350, img:'assets/brew_cut.png',     chips:['Bold','Dark','Iced'],          fruit:'coffee', c:{bg1:'#b08d6e',bg2:'#7d5c40',bg3:'#54391f',splash:'hue-rotate(15deg) saturate(.5) brightness(.85)'}},
- {id:'caramel',  name:'Caramel Frappe',        word:'Caramello',      desc:'Whipped cloud, golden drizzle',              price:480, kcal:390, ml:350, img:'assets/caramel_cut.png', chips:['Golden','Sweet','Whipped'],    fruit:'orange', c:{bg1:'#e3bb84',bg2:'#c08d4e',bg3:'#8f6128',splash:'hue-rotate(12deg) saturate(.9)'}},
- {id:'espresso', name:'Iced Espresso',         word:'Espressoly',     desc:'Short, dark, honest',                        price:300, kcal:90,  ml:250, img:'assets/espresso_cut.png',chips:['Short','Dark','Honest'],       fruit:'coffee', c:{bg1:'#c19a80',bg2:'#8a6146',bg3:'#5c3d28',splash:'hue-rotate(14deg) saturate(.45) brightness(.8)'}},
- {id:'oreo',     name:'Oreo Milkshake',        word:'Oreolicious',    desc:'Cookies & cream, crumb rim',                 price:450, kcal:420, ml:350, img:'assets/oreo_cut.png',    chips:['Cookies','Cream','Cold'],      fruit:'cookie', c:{bg1:'#c9c4cd',bg2:'#8f8798',bg3:'#5f5768',splash:'saturate(.12) brightness(1.05)'}},
- {id:'kitkat',   name:'KitKat Shake',          word:'Kitkalicious',   desc:'Chocolate wafer crown',                      price:450, kcal:430, ml:350, img:'assets/kitkat_cut.png',  chips:['Chocolate','Crispy','Cold'],   fruit:'cookie', c:{bg1:'#d3a273',bg2:'#a5713f',bg3:'#714722',splash:'hue-rotate(20deg) saturate(.7)'}},
- {id:'donut',    name:'Biscoff Donut',         word:'Biscoffal',      desc:'The famous one — goes fast',                 price:250, kcal:380, ml:120, img:'assets/donut_cut.png',   chips:['Spiced','Sweet','Warm'],       fruit:'orange', c:{bg1:'#dfb58a',bg2:'#b57f4e',bg3:'#845426',splash:'hue-rotate(16deg) saturate(.8)'}},
- {id:'cinnamon', name:'Cinnamon Roll',         word:'Cinnamon',       desc:'Glazed, warm from the case',                 price:300, kcal:410, ml:150, img:'assets/cinnamon_cut.png',chips:['Glazed','Warm','Cozy'],        fruit:'orange', c:{bg1:'#d9a983',bg2:'#ab7350',bg3:'#7a4c2e',splash:'hue-rotate(18deg) saturate(.7)'}},
+ {id:'straw',    name:'Strawberry Bliss',      word:'Strawlicious',   desc:'The famous one — berry first, coffee after', price:450, kcal:320, ml:350, img:'assets/straw_cut.webp',    chips:['Fresh','Sweet','Irresistible'], fruit:'straw', c:{bg1:'#e0959f',bg2:'#c06674',bg3:'#9c4a58',splash:'hue-rotate(0deg) saturate(1)'}},
+ {id:'matcha',   name:'Kiwi Breeze',           word:'Kiwliciously',   desc:'Smooth and refreshing with a subtle tangy note', price:450, kcal:280, ml:350, img:'assets/matcha_cut.webp',  chips:['Exotic','Tangy','Smooth'],      fruit:'kiwi',  c:{bg1:'#b7bd6e',bg2:'#8d974a',bg3:'#66702f',splash:'hue-rotate(95deg) saturate(.75)'}},
+ {id:'mojito',   name:'Grape Velvet',          word:'Grapstical',     desc:'Juicy grapes blended into a velvety milkshake base', price:480, kcal:340, ml:350, img:'assets/mojito_cut.webp',  chips:['Bold','Juicy','Vibrant'],       fruit:'blue', c:{bg1:'#c78fd0',bg2:'#a25fb4',bg3:'#7a3d8c',splash:'hue-rotate(250deg) saturate(.9)'}},
+ {id:'latte',    name:'Iced Latte',            word:'Lattelicious',  desc:'Creamy coffee over ice, milk swirls',        price:350, kcal:210, ml:350, img:'assets/latte_cut.webp',    chips:['Creamy','Smooth','Iced'],      fruit:'coffee', c:{bg1:'#dcb590',bg2:'#b98a5e',bg3:'#8f6440',splash:'hue-rotate(18deg) saturate(.55)'}},
+ {id:'brew',     name:'Cold Brew To-Go',       word:'Brewtanical',    desc:'18 hours of patience, over ice',             price:400, kcal:120, ml:350, img:'assets/brew_cut.webp',     chips:['Bold','Dark','Iced'],          fruit:'coffee', c:{bg1:'#b08d6e',bg2:'#7d5c40',bg3:'#54391f',splash:'hue-rotate(15deg) saturate(.5) brightness(.85)'}},
+ {id:'caramel',  name:'Caramel Frappe',        word:'Caramello',      desc:'Whipped cloud, golden drizzle',              price:480, kcal:390, ml:350, img:'assets/caramel_cut.webp', chips:['Golden','Sweet','Whipped'],    fruit:'orange', c:{bg1:'#e3bb84',bg2:'#c08d4e',bg3:'#8f6128',splash:'hue-rotate(12deg) saturate(.9)'}},
+ {id:'espresso', name:'Iced Espresso',         word:'Espressoly',     desc:'Short, dark, honest',                        price:300, kcal:90,  ml:250, img:'assets/espresso_cut.webp',chips:['Short','Dark','Honest'],       fruit:'coffee', c:{bg1:'#c19a80',bg2:'#8a6146',bg3:'#5c3d28',splash:'hue-rotate(14deg) saturate(.45) brightness(.8)'}},
+ {id:'oreo',     name:'Oreo Milkshake',        word:'Oreolicious',    desc:'Cookies & cream, crumb rim',                 price:450, kcal:420, ml:350, img:'assets/oreo_cut.webp',    chips:['Cookies','Cream','Cold'],      fruit:'cookie', c:{bg1:'#c9c4cd',bg2:'#8f8798',bg3:'#5f5768',splash:'saturate(.12) brightness(1.05)'}},
+ {id:'kitkat',   name:'KitKat Shake',          word:'Kitkalicious',   desc:'Chocolate wafer crown',                      price:450, kcal:430, ml:350, img:'assets/kitkat_cut.webp',  chips:['Chocolate','Crispy','Cold'],   fruit:'cookie', c:{bg1:'#d3a273',bg2:'#a5713f',bg3:'#714722',splash:'hue-rotate(20deg) saturate(.7)'}},
+ {id:'donut',    name:'Biscoff Donut',         word:'Biscoffal',      desc:'The famous one — goes fast',                 price:250, kcal:380, ml:120, img:'assets/donut_cut.webp',   chips:['Spiced','Sweet','Warm'],       fruit:'orange', c:{bg1:'#dfb58a',bg2:'#b57f4e',bg3:'#845426',splash:'hue-rotate(16deg) saturate(.8)'}},
+ {id:'cinnamon', name:'Cinnamon Roll',         word:'Cinnamon',       desc:'Glazed, warm from the case',                 price:300, kcal:410, ml:150, img:'assets/cinnamon_cut.webp',chips:['Glazed','Warm','Cozy'],        fruit:'orange', c:{bg1:'#d9a983',bg2:'#ab7350',bg3:'#7a4c2e',splash:'hue-rotate(18deg) saturate(.7)'}},
 ];
-const FRUIT = {straw:'assets/gen/straw.png', berry:'assets/gen/berry.png', kiwi:'assets/gen/kiwi.png', blue:'assets/gen/blue.png', coffee:'assets/gen/coffee.png', orange:'assets/gen/orange.png', cookie:'assets/gen/cookie.png'};
+const FRUIT = {straw:'assets/gen/straw.webp', berry:'assets/gen/berry.webp', kiwi:'assets/gen/kiwi.webp', blue:'assets/gen/blue.webp', coffee:'assets/gen/coffee.webp', orange:'assets/gen/orange.webp', cookie:'assets/gen/cookie.webp'};
 const WA = '254794053291';
 const $ = s => document.querySelector(s);
 const money = v => 'KES '+Math.round(v).toLocaleString('en-KE');
